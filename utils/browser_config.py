@@ -59,5 +59,5 @@ class Config:
             await self.page.screenshot(path=screenshot_path, full_page=True)
 
 
-logging.getLogger('asyncio').setLevel(logging.WARNING)
+logging.getLogger('asyncio').setLevel(logging.CRITICAL)
 logging.getLogger('filelock').setLevel(logging.CRITICAL)
