@@ -1,13 +1,13 @@
 import pytest
-from pages.home_page import Home
+from pages.home_page import *
 import allure
 from allure import severity_level as severity
 
-
 @pytest.fixture(scope='function')
 async def home_page(page):
-    home_page = Home(page)
-    await home_page.open_page()
+    home_page = HomePage(page)
+    with allure.step("▸ Navigate to resume builder page"):
+        await home_page.action.open_page()
     return home_page
 
 
@@ -19,5 +19,6 @@ async def home_page(page):
 class TestSmokeJobPage:
     @allure.title("Home Page Map Validation")
     @allure.severity(severity.CRITICAL)
-    async def test_sort_control(self, job_page):
-        pass
+    async def test_home_page_component(self, home_page):
+        await home_page.check.mini_banner_presence()
+        await home_page.check.map_mode_presence()
