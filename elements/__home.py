@@ -4,11 +4,11 @@ class PageInfo:
 
 class Header:
     top_banner = "#view-banner-gov-sg"
-    search = ""
-    community = ""
-    school = ""
-    medical = ""
-    restaurant = ""
+    search = ".search-location-wrapper"
+    community = "#Community"
+    school = "#SchoolQueryInfo"
+    medical = "#Medical"
+    restaurant = "HawkerCentres"
     map_mode = "#btn2D3D"
     map_ball = ""
 
