@@ -14,7 +14,9 @@ class Header:
 
 
 class MapSearch:
-    pass
+    this_area_wrapper = "#searchHereDiv"
+    this_area_btn = "#searchHerebtn"
+    cancel_area_btn = "#cancelSearch"
 
 
 class SchoolQuery:
