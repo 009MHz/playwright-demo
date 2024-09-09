@@ -14,7 +14,7 @@ async def home_page(page):
 
 @allure.epic("Home")
 @allure.story("Smoke Testing: Home Page")
-@allure.feature("Home/ Map")
+@allure.feature("Home/ Map/ Header")
 @pytest.mark.positive
 @pytest.mark.smoke
 class TestSmokeJobPage:
@@ -52,3 +52,30 @@ class TestSmokeJobPage:
                 await home_page.check.contact_us()
                 await home_page.check.terms_of_use()
                 await home_page.check.report_cta()
+
+    @allure.title("Home Page Main Toggle Interaction")
+    @allure.severity(severity.CRITICAL)
+    @pytest.mark.parametrize("marker_type, feature", [
+        ("Hawker Centres", "Home/ Map/ Header/ Restaurant"),
+        ("Medical", "Home/ Map/ Header/ Medical"),
+        ("Community", "Home/ Map/ Header/ Community"),
+    ])
+    async def test_map_header_interaction_toggle(self, home_page, marker_type, feature):
+        allure.dynamic.feature(feature)
+        with allure.step(f"Interact With {marker_type} Toggle to show the marker"):
+            if marker_type == "Hawker Centres":
+                await home_page.action.show_hawker_centres_marker()
+            elif marker_type == "Medical":
+                await home_page.action.show_medical_marker()
+            elif marker_type == "Community":
+                await home_page.action.show_community_marker()
+            await home_page.check.search_this_area_presence()
+
+        with allure.step(f"Interact With {marker_type} Toggle again to hide the marker"):
+            if marker_type == "Hawker Centres":
+                await home_page.action.hide_hawker_centres_marker()
+            elif marker_type == "Medical":
+                await home_page.action.hide_medical_marker()
+            elif marker_type == "Community":
+                await home_page.action.hide_community_marker()
+            await home_page.check.search_this_area_dismissal()
