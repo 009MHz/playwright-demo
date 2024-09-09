@@ -20,7 +20,23 @@ class MapSearch:
 
 
 class SchoolQuery:
-    pass
+    main = "#schoolQueryContainer"
+    close = ".sqOptionBack"
+    menu_title = ".schoolQueryTitleBlock"
+
+    class Kindergarten:
+        button = "#kindergarten"
+        disclaimer = "#disclaimerBlk_kindergarten"
+        disc_title = f"{disclaimer} .schoolQueryDisclaimerBlockTitle"
+        disc_info = f"{disclaimer} .schoolQueryDisclaimerBlockContent"
+        disc_faq = f"{disclaimer} .schoolFAQItem"
+        disc_button = "#schoolQueryDisclaimerBlockBtn_kindergarten"
+        result = "#categoryBlk_kindergarten"
+        result_title = f"{result} .schoolQueryCatTitle"
+        result_option = "#optionSchoolSearch_kindergarten"
+        result_option_anchor = "#nearbySchoolOpt"
+        result_option_nearby = "#nearbySchoolOptTwo"
+        result_nearby_item = "(//div[@id='schoolListItemkindergarten'])"
 
 
 class BottomMenu:
