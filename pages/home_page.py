@@ -16,6 +16,40 @@ class HomeInteraction(BasePage):
         await self.page.goto(PageInfo.url)
         assert 'gov.sg' in self.page.url, f"Incorrect URL: {self.page.url} detected"
 
+    async def show_hawker_centres_marker(self):
+        await self._force(Header.restaurant)
+        await expect(self._find(Header.restaurant)).to_have_attribute('class', re.compile(r'btnactive'))
+
+    async def hide_hawker_centres_marker(self):
+        await expect(self._find(Header.restaurant)).to_have_attribute('class', re.compile(r'btnactive'))
+
+        await self._click(Header.restaurant)
+        await expect(self._find(Header.restaurant)).not_to_have_attribute('class', re.compile(r'btnactive'))
+        
+    async def show_medical_marker(self):
+        await self._force(Header.medical)
+        await expect(self._find(Header.medical)).to_have_attribute('class', re.compile(r'btnactive'))
+
+    async def hide_medical_marker(self):
+        await expect(self._find(Header.medical)).to_have_attribute('class', re.compile(r'btnactive'))
+
+        await self._click(Header.medical)
+        await expect(self._find(Header.medical)).not_to_have_attribute('class', re.compile(r'btnactive'))
+
+    async def show_community_marker(self):
+        await self._force(Header.community)
+        await expect(self._find(Header.community)).to_have_attribute('class', re.compile(r'btnactive'))
+
+    async def hide_community_marker(self):
+        await expect(self._find(Header.community)).to_have_attribute('class', re.compile(r'btnactive'))
+
+        await self._click(Header.community)
+        await expect(self._find(Header.community)).not_to_have_attribute('class', re.compile(r'btnactive'))
+
+    async def click_school_marker(self):
+        await self._force(Header.school)
+        await expect(self._find(Header.community)).not_to_have_attribute('class', re.compile(r'btnactive'))
+
 
 class HomeValidation(BasePage):
     """Header"""
@@ -102,3 +136,18 @@ class HomeValidation(BasePage):
     async def report_cta(self):
         reporter = self.page.locator('.footerLinks a', has_text='Report Vulnerability')
         await expect(reporter).to_have_attribute('href', 'https://www.tech.gov.sg/report_vulnerability')
+
+    async def search_this_area_presence(self):
+        await self._look(MapSearch.this_area_wrapper)
+        await expect(self._find(MapSearch.this_area_btn)).to_be_visible()
+        await expect(self._find(MapSearch.this_area_btn)).to_be_enabled()
+        await expect(self._find(MapSearch.this_area_btn)).to_have_text('Search this area')
+
+        await expect(self._find(MapSearch.cancel_area_btn)).to_be_visible()
+        await expect(self._find(MapSearch.cancel_area_btn)).to_be_enabled()
+
+    async def search_this_area_dismissal(self):
+        await self._conceal(MapSearch.this_area_wrapper)
+
+        await expect(self._find(MapSearch.this_area_btn)).not_to_be_visible()
+        await expect(self._find(MapSearch.cancel_area_btn)).not_to_be_visible()
