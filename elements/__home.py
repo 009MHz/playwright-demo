@@ -8,9 +8,9 @@ class Header:
     community = "#Community"
     school = "#SchoolQueryInfo"
     medical = "#Medical"
-    restaurant = "HawkerCentres"
+    restaurant = "#HawkerCentres"
     map_mode = "#btn2D3D"
-    map_ball = ""
+    map_ball = ".compass"
 
 
 class MapSearch:
@@ -19,3 +19,28 @@ class MapSearch:
 
 class SchoolQuery:
     pass
+
+
+class BottomMenu:
+    one_map = "#onemap3Btn"
+    legend = ".distance-legend"
+    feedback = ".wog--tabbed-button wog--tabbed-button-bottom-left"
+
+    class Drawer:
+        button = "#drawTools"
+        tray = "#drawToolsTray"
+        create_line = "#drawLine"
+        create_polygon = "#drawPolygon"
+        delete_line = "#deleteDraw"
+        close = "#closeDrawTray"
+
+    share = "#shareview"
+    my_loc = "#getMyLoc"
+    zoom_in = ".zoomInBtn"
+    zoom_out = ".zoomOutBtn"
+    footer_main = ".footerLinks"
+    footer_year = "//a[normalize-space()='Map data ©2023 SLA']"
+    footer_contact = "//a[normalize-space()='Contact Us']"
+    footer_TOU = "//a[normalize-space()='Terms of Use']"
+    footer_report = "//a[normalize-space()='Report Vulnerability']"
+
