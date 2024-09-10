@@ -43,6 +43,52 @@ class SchQuery:
         result_nearby_list = "#schoolQueryAllResultsList_kindergarten"
         result_nearby_item = "(//div[@id='schoolListItemkindergarten'])"
 
+    class PrimarySchool:
+        button = "#priSchool"
+        disclaimer = "#disclaimerBlk_priSchool"
+        disc_title = f"{disclaimer} .schoolQueryDisclaimerBlockTitle"
+        disc_info = f"{disclaimer} .schoolQueryDisclaimerBlockContent"
+        disc_faq = f"{disclaimer} .schoolFAQItem a"
+        disc_button = "#schoolQueryDisclaimerBlockBtn_priSchool"
+        result = "//div[@id='categoryBlk_priSchool' and contains(@class,'schoolQueryCatContentBlock')]"
+        result_title = f"{result}//div[@class='schoolQueryCatTitle']"
+        result_print = "#schoolQueryPrintBtn"
+        result_back = "#schoolQueryCatBackBtn"
+        result_option = "//div[@id='optionSchoolSearch_priSchool']"
+        result_option_anchor = f"{result_option}//div[@id='nearbySchoolOpt']"
+        result_anchor_near_title = "(//div[@class='bufferTitle'])[1]"
+        result_anchor_far_title = "(//div[@class='bufferTitle'])[2]"
+        result_option_nearby = f"{result_option}//div[@id='nearbySchoolOptTwo']"
+        result_nearby_list = "#schoolQueryAllResultsList_priSchool"
+        result_nearby_item = "(//div[@id='schoolListItempriSchool'])"
+
+    class SecondarySchool:
+        button = "#secSchool"
+        disclaimer = "div[id='disclaimerBlk_secSchool']"
+        disc_title = f"{disclaimer} .schoolQueryDisclaimerBlockTitle"
+        disc_info = f"{disclaimer} .schoolQueryDisclaimerBlockContent"
+        disc_faq = f"{disclaimer} .schoolFAQItem a"
+        disc_button = "#schoolQueryDisclaimerBlockBtn_secSchool"
+        result = "//div[@id='categoryBlk_secSchool' and contains(@class,'schoolQueryCatContentBlock')]"
+        result_title = f"{result}//div[@class='schoolQueryCatTitle']"
+        result_back = "#schoolQueryCatBackBtn"
+        result_option_list = "#schoolQueryAllResultsList_secSchool"
+        result_option_item = "(//div[@id='schoolListItemsecSchool'])"
+
+    class PostSecond:
+        button = "#postSecSchool"
+        disclaimer = "#disclaimerBlk_postSecSchool"
+        disc_title = f"{disclaimer} .schoolQueryDisclaimerBlockTitle"
+        disc_info = f"{disclaimer} .schoolQueryDisclaimerBlockContent"
+        disc_faq = f"{disclaimer} .schoolFAQItem a"
+        disc_button = "#schoolQueryDisclaimerBlockBtn_postSecSchool"
+        result = "//div[@id='categoryBlk_postSecSchool' and contains(@class,'schoolQueryCatContentBlock')]"
+        result_title = f"{result}//div[@class='schoolQueryCatTitle']"
+        result_back = "#schoolQueryCatBackBtn"
+        result_option_list = "#schoolQueryAllResultsList_postSecSchool"
+        result_option_item = "(//div[@id='schoolListItempostSecSchool'])"
+
+
 
 class BottomMenu:
     one_map = "#onemap3Btn"

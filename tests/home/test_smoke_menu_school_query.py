@@ -21,36 +21,98 @@ class TestSmokeJobPage:
     @allure.feature("Home/ Map/ Header/ School Query")
     @allure.title("Home Page School Toggle Interaction")
     @allure.severity(severity.CRITICAL)
-    async def test_school_query_component(self, school):
+    @pytest.mark.parametrize("school_type, feature", [
+        ("Kindergarten", "Home/ Map/ Header/ School Query/ Kindergarten"),
+        ("Primary School", "Home/ Map/ Header/ School Query/ Primary School"),
+        ("Secondary School", "Home/ Map/ Header/ School Query/ Secondary School"),
+        ("Post Secondary", "Home/ Map/ Header/ School Query/ Post Secondary School")
+    ])
+    async def test_school_query_component(self, school, school_type, feature):
+        allure.dynamic.feature(feature)
         with allure.step("Click on the School Query Toggle"):
             await school.action.click_school_query_toggle()
 
         with allure.step("Verify that the School Query Side menu is exist and interactable"):
             await school.check.side_menu_initial_state()
             await school.check.side_menu_close_btn()
-            await school.check.side_menu_kindergarten_btn()
+            if school_type == "Kindergarten":
+                await school.check.side_menu_kindergarten_btn()
+            elif school_type == "Primary School":
+                await school.check.side_menu_primary_school_btn()
+            elif school_type == "Secondary School":
+                await school.check.side_menu_secondary_school_btn()
+            elif school_type == "Post Secondary":
+                await school.check.side_menu_post_second_school_btn()
 
-        with allure.step("Click on the side menu {feature} button "):
-            await school.action.click_kindergarten_btn()
+        with allure.step(f"Click on the side menu {school_type} button"):
+            if school_type == "Kindergarten":
+                await school.action.click_kindergarten_btn()
+            elif school_type == "Primary School":
+                await school.action.click_primary_school_btn()
+            elif school_type == "Secondary School":
+                await school.action.click_secondary_school_btn()
+            elif school_type == "Post Secondary":
+                await school.action.click_post_second_school_btn()
 
-        with allure.step("Verify the {feature} disclaimer "):
-            await school.check.kindergarten_disclaimer_title()
-            await school.check.kindergarten_disclaimer_info()
-            await school.check.kindergarten_disclaimer_FAQ()
-            await school.check.kindergarten_disclaimer_agree()
+        with allure.step(f"Verify the {school_type} disclaimer"):
+            if school_type == "Kindergarten":
+                await school.check.kindergarten_disclaimer_title()
+                await school.check.kindergarten_disclaimer_info()
+                await school.check.kindergarten_disclaimer_FAQ()
+                await school.check.kindergarten_disclaimer_agree()
+            elif school_type == "Primary School":
+                await school.check.primary_school_disclaimer_title()
+                await school.check.primary_school_disclaimer_info()
+                await school.check.primary_school_disclaimer_FAQ()
+                await school.check.primary_school_disclaimer_agree()
+            elif school_type == "Secondary School":
+                await school.check.secondary_school_disclaimer_title()
+                await school.check.secondary_school_disclaimer_info()
+                await school.check.secondary_school_disclaimer_agree()
+            elif school_type == "Post Secondary":
+                await school.check.post_second_school_disclaimer_title()
+                await school.check.post_second_school_disclaimer_info()
+                await school.check.post_second_school_disclaimer_agree()
 
-        with allure.step("Click on the {feature} disclaimer Agree button "):
-            await school.action.click_kindergarten_agree_btn()
+        with allure.step(f"Click on the {school_type} disclaimer Agree button"):
+            if school_type == "Kindergarten":
+                await school.action.click_kindergarten_agree_btn()
+            elif school_type == "Primary School":
+                await school.action.click_primary_school_agree_btn()
+            elif school_type == "Secondary School":
+                await school.action.click_secondary_school_agree_btn()
+            elif school_type == "Post Secondary":
+                await school.action.click_post_second_school_agree_btn()
 
-        with allure.step("Verify the {feature} Search Result Anchor option window"):
-            await school.check.kindergarten_search_result_header()
-            await school.check.kindergarten_search_result_anchor()
-            await school.check.kindergarten_search_result_anchor_item()
+        with allure.step(f"Verify the {school_type} Search Result"):
+            if school_type == "Kindergarten":
+                await school.check.kindergarten_search_result_header()
+                await school.check.kindergarten_search_result_anchor()
+                await school.check.kindergarten_search_result_anchor_item()
 
-        with allure.step("Click on the {feature} Search Result Nearby option window"):
-            await school.action.click_kindergarten_search_result_nearby()
+                with allure.step(f"Click on the {school_type} Search Result Nearby option window"):
+                    await school.action.click_kindergarten_search_result_nearby()
 
-        with allure.step("Verify the {feature} Search Result Nearby option window"):
-            await school.check.kindergarten_search_result_nearby()
-            await school.check.kindergarten_search_result_nearby_item()
+                with allure.step(f"Verify the {school_type} Search Result Nearby option window"):
+                    await school.check.kindergarten_search_result_nearby()
+                    await school.check.kindergarten_search_result_nearby_item()
+            
+            elif school_type == "Primary School":
+                await school.check.primary_school_search_result_header()
+                await school.check.primary_school_search_result_anchor()
+                await school.check.primary_school_search_result_anchor_item()
 
+                with allure.step(f"Click on the {school_type} Search Result Nearby option window"):
+                    await school.action.click_primary_school_search_result_nearby()
+
+                with allure.step(f"Verify the {school_type} Search Result Nearby option window"):
+                    await school.check.primary_school_search_result_nearby()
+                    await school.check.primary_school_search_result_nearby_item()
+            
+            elif school_type == "Secondary School":
+                await school.check.secondary_school_search_result_header()
+                await school.check.secondary_school_search_result_item()
+                
+            elif school_type == "Post Secondary":
+                await school.check.post_second_school_search_result_header()
+                await school.check.post_second_school_search_result_item()
