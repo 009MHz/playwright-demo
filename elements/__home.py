@@ -19,7 +19,7 @@ class MapSearch:
     cancel_area_btn = "#cancelSearch"
 
 
-class SchoolQuery:
+class SchQuery:
     main = "#schoolQueryContainer"
     close = ".sqOptionBack"
     menu_title = ".schoolQueryTitleBlock"
