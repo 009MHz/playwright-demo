@@ -4,15 +4,20 @@ import logging
 
 class Config:
     def __init__(self):
-        self.browser = None
+        self.browsers = {}
         self.page = None
         self.session_handler = None
 
     def is_headless(self):
         return os.getenv("headless") == "True"
 
-    async def setup_browser(self, playwright):
-        browser_type = os.getenv("BROWSER", "chromium")
+    async def setup_browser(self, playwright, browser_type=None):
+        browser_type = browser_type or os.getenv("BROWSER", "chromium")
+
+        if browser_type in self.browsers:
+            self.browser = self.browsers[browser_type]
+            return
+
         mode = os.getenv("mode")
         headless = self.is_headless()
         launch_args = {
@@ -29,7 +34,7 @@ class Config:
         else:
             raise ValueError(f"Unsupported execution type: {mode}")
 
-        # self.session_handler = SessionHandler(self.browser, headless)
+        self.browsers[browser_type] = self.browser
 
     async def context_init(self, storage_state=None, user_type="user"):
         context_options = {
@@ -60,4 +65,3 @@ class Config:
 
 
 logging.getLogger('asyncio').setLevel(logging.CRITICAL)
-logging.getLogger('filelock').setLevel(logging.CRITICAL)
