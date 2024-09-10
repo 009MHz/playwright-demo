@@ -23,32 +23,34 @@ class TestSmokeJobPage:
     @allure.severity(severity.CRITICAL)
     async def test_school_query_component(self, school):
         with allure.step("Click on the School Query Toggle"):
-            await school.action.click_school_query_toggle
+            await school.action.click_school_query_toggle()
 
+        with allure.step("Verify that the School Query Side menu is exist and interactable"):
+            await school.check.side_menu_initial_state()
+            await school.check.side_menu_close_btn()
+            await school.check.side_menu_kindergarten_btn()
 
-    # @allure.title("Home Page Main Toggle Interaction")
-    # @allure.severity(severity.CRITICAL)
-    # @pytest.mark.parametrize("marker_type, feature", [
-    #     ("Hawker Centres", "Home/ Map/ Header/ Restaurant"),
-    #     ("Medical", "Home/ Map/ Header/ Medical"),
-    #     ("Community", "Home/ Map/ Header/ Community"),
-    # ])
-    # async def test_map_header_interaction_toggle(self, school, marker_type, feature):
-    #     allure.dynamic.feature(feature)
-    #     with allure.step(f"Interact With {marker_type} Toggle to show the marker"):
-    #         if marker_type == "Hawker Centres":
-    #             await school.action.show_hawker_centres_marker()
-    #         elif marker_type == "Medical":
-    #             await school.action.show_medical_marker()
-    #         elif marker_type == "Community":
-    #             await school.action.show_community_marker()
-    #         await school.check.search_this_area_presence()
-    #
-    #     with allure.step(f"Interact With {marker_type} Toggle again to hide the marker"):
-    #         if marker_type == "Hawker Centres":
-    #             await school.action.hide_hawker_centres_marker()
-    #         elif marker_type == "Medical":
-    #             await school.action.hide_medical_marker()
-    #         elif marker_type == "Community":
-    #             await school.action.hide_community_marker()
-    #         await school.check.search_this_area_dismissal()
+        with allure.step("Click on the side menu {feature} button "):
+            await school.action.click_kindergarten_btn()
+
+        with allure.step("Verify the {feature} disclaimer "):
+            await school.check.kindergarten_disclaimer_title()
+            await school.check.kindergarten_disclaimer_info()
+            await school.check.kindergarten_disclaimer_FAQ()
+            await school.check.kindergarten_disclaimer_agree()
+
+        with allure.step("Click on the {feature} disclaimer Agree button "):
+            await school.action.click_kindergarten_agree_btn()
+
+        with allure.step("Verify the {feature} Search Result Anchor option window"):
+            await school.check.kindergarten_search_result_header()
+            await school.check.kindergarten_search_result_anchor()
+            await school.check.kindergarten_search_result_anchor_item()
+
+        with allure.step("Click on the {feature} Search Result Nearby option window"):
+            await school.action.click_kindergarten_search_result_nearby()
+
+        with allure.step("Verify the {feature} Search Result Nearby option window"):
+            await school.check.kindergarten_search_result_nearby()
+            await school.check.kindergarten_search_result_nearby_item()
+
