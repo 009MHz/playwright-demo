@@ -234,3 +234,41 @@ class Validation(BasePage):
             # check_value = await self._find(curr_item).get_attribute('schoolname')
             # print(curr_item, check_value)
             await expect(self._find(curr_item)).not_to_have_text('')
+            
+    async def side_menu_post_second_school_btn(self):
+        await self._look(SchQuery.PostSecond.button)
+        await expect(self._find(SchQuery.PostSecond.button)).to_be_enabled()
+        await expect(self._find(SchQuery.PostSecond.button)).to_have_text('Secondary School')
+
+    async def post_second_school_disclaimer_title(self):
+        await self._look(SchQuery.PostSecond.disclaimer)
+        await expect(self._find(SchQuery.PostSecond.disc_title)).to_have_text('Disclaimer - Secondary Schools')
+
+    async def post_second_school_disclaimer_info(self):
+        await self._look(SchQuery.PostSecond.disclaimer)
+        await expect(self._find(SchQuery.PostSecond.disc_info)).to_contain_text('information accurate')
+        await expect(self._find(SchQuery.PostSecond.disc_info)).to_contain_text('schools for Secondary 1 admission')
+
+    async def post_second_school_disclaimer_agree(self):
+        await self._look(SchQuery.PostSecond.disclaimer)
+        await expect(self._find(SchQuery.PostSecond.disc_button)).to_be_enabled()
+        await expect(self._find(SchQuery.PostSecond.disc_button)).to_have_text('I Agree')
+
+    async def post_second_school_search_result_header(self):
+        await self._look(SchQuery.PostSecond.result)
+        await expect(self._find(SchQuery.PostSecond.result_title)).to_have_text('Secondary School')
+        await expect(self._find(SchQuery.PostSecond.result_back)).to_be_enabled()
+
+    async def _get_post_second_school_item_count(self) -> int:
+        await self._look(SchQuery.PostSecond.result_option_item)
+        item_count = await self._find(SchQuery.PostSecond.result_option_item).count()
+        print(f"Retrieved item count: {item_count}")
+        return item_count
+
+    async def post_second_school_search_result_item(self):
+        item_limit = await self._get_post_second_school_item_count()
+        for x in range(1, item_limit + 1):
+            curr_item = f"{SchQuery.PostSecond.result_option_item}[{x}]"
+            # check_value = await self._find(curr_item).get_attribute('schoolname')
+            # print(curr_item, check_value)
+            await expect(self._find(curr_item)).not_to_have_text('')

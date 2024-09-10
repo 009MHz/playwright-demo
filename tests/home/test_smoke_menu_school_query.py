@@ -25,6 +25,7 @@ class TestSmokeJobPage:
         ("Kindergarten", "Home/ Map/ Header/ School Query/ Kindergarten"),
         ("Primary School", "Home/ Map/ Header/ School Query/ Primary School"),
         ("Secondary School", "Home/ Map/ Header/ School Query/ Secondary School"),
+        ("Post Secondary", "Home/ Map/ Header/ School Query/ Post Secondary School")
     ])
     async def test_school_query_component(self, school, school_type, feature):
         allure.dynamic.feature(feature)
