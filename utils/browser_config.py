@@ -53,7 +53,7 @@ class Config:
 
     async def capture_handler(self):
         screenshot_option = os.getenv("screenshot", "off")
-        if screenshot_option != "off" and self.page:
+        if screenshot_option != "off":
             screenshot_path = f"reports/screenshots/{await self.page.title()}.png"
             os.makedirs(os.path.dirname(screenshot_path), exist_ok=True)
             await self.page.screenshot(path=screenshot_path, full_page=True)
