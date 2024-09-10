@@ -62,6 +62,19 @@ class SchQuery:
         result_nearby_list = "#schoolQueryAllResultsList_priSchool"
         result_nearby_item = "(//div[@id='schoolListItempriSchool'])"
 
+    class SecondarySchool:
+        button = "#secSchool"
+        disclaimer = "div[id='disclaimerBlk_secSchool']"
+        disc_title = f"{disclaimer} .schoolQueryDisclaimerBlockTitle"
+        disc_info = f"{disclaimer} .schoolQueryDisclaimerBlockContent"
+        disc_faq = f"{disclaimer} .schoolFAQItem a"
+        disc_button = "#schoolQueryDisclaimerBlockBtn_secSchool"
+        result = "//div[@id='categoryBlk_secSchool' and contains(@class,'schoolQueryCatContentBlock')]"
+        result_title = f"{result}//div[@class='schoolQueryCatTitle']"
+        result_back = "#schoolQueryCatBackBtn"
+        result_option_list = "#schoolQueryAllResultsList_secSchool"
+        result_option_item = "(//div[@id='schoolListItemsecSchool'])"
+
 
 class BottomMenu:
     one_map = "#onemap3Btn"
