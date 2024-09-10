@@ -22,7 +22,7 @@ class BasePage:
         await self._look(locator, timeout)
         await self.page.locator(locator).fill(text)
 
-    async def _click(self, locator: str, timeout: int = 10000):
+    async def _click(self, locator: str, timeout: int = 25000):
         await self._touch(locator, timeout=timeout)
         await self.page.locator(locator).click()
 
@@ -30,6 +30,6 @@ class BasePage:
         await self._touch(locator, timeout=timeout)
         await self.page.locator(locator).dblclick()
 
-    async def _force(self, locator: str, timeout: int = 10000):
-        await self._look(locator, timeout)
+    async def _force(self, locator: str, timeout: int = 25000):
+        await self._touch(locator, timeout)
         await self.page.locator(locator).click(force=True, delay=500)
