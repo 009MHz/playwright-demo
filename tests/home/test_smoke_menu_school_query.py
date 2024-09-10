@@ -34,12 +34,22 @@ class TestSmokeJobPage:
         with allure.step("Verify that the School Query Side menu is exist and interactable"):
             await school.check.side_menu_initial_state()
             await school.check.side_menu_close_btn()
+            if school_type == "Kindergarten":
+                await school.check.side_menu_kindergarten_btn()
+            elif school_type == "Primary School":
+                await school.check.side_menu_primary_school_btn()
+            elif school_type == "Secondary School":
+                await school.check.side_menu_secondary_school_btn()
+            elif school_type == "Post Secondary":
+                await school.check.side_menu_post_secondary_school_btn()
 
         with allure.step(f"Click on the side menu {school_type} button"):
             if school_type == "Kindergarten":
                 await school.action.click_kindergarten_btn()
             elif school_type == "Primary School":
                 await school.action.click_primary_school_btn()
+            elif school_type == "Secondary School":
+                await school.action.click_secondary_school_btn()
 
         with allure.step(f"Verify the {school_type} disclaimer"):
             if school_type == "Kindergarten":
@@ -68,7 +78,7 @@ class TestSmokeJobPage:
         with allure.step(f"Verify the {school_type} Search Result"):
             if school_type == "Kindergarten":
                 await school.check.kindergarten_search_result_header()
-                await school.check.kindergarten_search_result_anchor('Find MOE Kindergartens Near a Building')
+                await school.check.kindergarten_search_result_anchor()
                 await school.check.kindergarten_search_result_anchor_item()
 
                 with allure.step(f"Click on the {school_type} Search Result Nearby option window"):
@@ -85,12 +95,9 @@ class TestSmokeJobPage:
                 with allure.step(f"Click on the {school_type} Search Result Nearby option window"):
                     await school.action.click_primary_school_search_result_nearby()
 
-        with allure.step(f"Verify the {school_type} Search Result Nearby option window"):
-            if school_type == "Kindergarten":
-                await school.check.kindergarten_search_result_nearby('Find Buildings Near a MOE Kindergarten')
-                await school.check.kindergarten_search_result_nearby_item(re.compile(r'MOE_KINDERGARTEN_@_'), 'MOE KINDERGARTEN @')
-            elif school_type == "Primary School":
-                await school.check.primary_school_search_result_nearby('Find Buildings Near a Primary School')
-                await school.check.primary_school_search_result_nearby_item(re.compile(r'PRIMARY_SCHOOL_@_'), 'PRIMARY SCHOOL @')
                 with allure.step(f"Verify the {school_type} Search Result Nearby option window"):
                     await school.check.primary_school_search_result_nearby()
+                    await school.check.primary_school_search_result_nearby_item()
+            elif school_type == "Secondary School":
+                await school.check.secondary_school_search_result_header()
+                await school.check.secondary_school_search_result_item()
