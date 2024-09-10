@@ -42,7 +42,7 @@ class TestSmokeJobPage:
             elif school_type == "Secondary School":
                 await school.check.side_menu_secondary_school_btn()
             elif school_type == "Post Secondary":
-                await school.check.side_menu_post_secondary_school_btn()
+                await school.check.side_menu_post_second_school_btn()
 
         with allure.step(f"Click on the side menu {school_type} button"):
             if school_type == "Kindergarten":
@@ -51,6 +51,8 @@ class TestSmokeJobPage:
                 await school.action.click_primary_school_btn()
             elif school_type == "Secondary School":
                 await school.action.click_secondary_school_btn()
+            elif school_type == "Post Secondary":
+                await school.action.click_post_second_school_btn()
 
         with allure.step(f"Verify the {school_type} disclaimer"):
             if school_type == "Kindergarten":
@@ -67,6 +69,10 @@ class TestSmokeJobPage:
                 await school.check.secondary_school_disclaimer_title()
                 await school.check.secondary_school_disclaimer_info()
                 await school.check.secondary_school_disclaimer_agree()
+            elif school_type == "Post Secondary":
+                await school.check.post_second_school_disclaimer_title()
+                await school.check.post_second_school_disclaimer_info()
+                await school.check.post_second_school_disclaimer_agree()
 
         with allure.step(f"Click on the {school_type} disclaimer Agree button"):
             if school_type == "Kindergarten":
@@ -75,6 +81,8 @@ class TestSmokeJobPage:
                 await school.action.click_primary_school_agree_btn()
             elif school_type == "Secondary School":
                 await school.action.click_secondary_school_agree_btn()
+            elif school_type == "Post Secondary":
+                await school.action.click_post_second_school_agree_btn()
 
         with allure.step(f"Verify the {school_type} Search Result"):
             if school_type == "Kindergarten":
@@ -88,6 +96,7 @@ class TestSmokeJobPage:
                 with allure.step(f"Verify the {school_type} Search Result Nearby option window"):
                     await school.check.kindergarten_search_result_nearby()
                     await school.check.kindergarten_search_result_nearby_item()
+            
             elif school_type == "Primary School":
                 await school.check.primary_school_search_result_header()
                 await school.check.primary_school_search_result_anchor()
@@ -99,6 +108,11 @@ class TestSmokeJobPage:
                 with allure.step(f"Verify the {school_type} Search Result Nearby option window"):
                     await school.check.primary_school_search_result_nearby()
                     await school.check.primary_school_search_result_nearby_item()
+            
             elif school_type == "Secondary School":
                 await school.check.secondary_school_search_result_header()
                 await school.check.secondary_school_search_result_item()
+                
+            elif school_type == "Post Secondary":
+                await school.check.post_second_school_search_result_header()
+                await school.check.post_second_school_search_result_item()

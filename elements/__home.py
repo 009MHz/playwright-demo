@@ -85,8 +85,8 @@ class SchQuery:
         result = "//div[@id='categoryBlk_postSecSchool' and contains(@class,'schoolQueryCatContentBlock')]"
         result_title = f"{result}//div[@class='schoolQueryCatTitle']"
         result_back = "#schoolQueryCatBackBtn"
-        result_option_list = "#schoolQueryAllResultsList_secSchool"
-        result_option_item = "(//div[@id='schoolListItemsecSchool'])"
+        result_option_list = "#schoolQueryAllResultsList_postSecSchool"
+        result_option_item = "(//div[@id='schoolListItempostSecSchool'])"
 
 
 

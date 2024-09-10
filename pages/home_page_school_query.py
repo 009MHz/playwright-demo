@@ -238,16 +238,16 @@ class Validation(BasePage):
     async def side_menu_post_second_school_btn(self):
         await self._look(SchQuery.PostSecond.button)
         await expect(self._find(SchQuery.PostSecond.button)).to_be_enabled()
-        await expect(self._find(SchQuery.PostSecond.button)).to_have_text('Secondary School')
+        await expect(self._find(SchQuery.PostSecond.button)).to_have_text('Post-Secondary School')
 
     async def post_second_school_disclaimer_title(self):
         await self._look(SchQuery.PostSecond.disclaimer)
-        await expect(self._find(SchQuery.PostSecond.disc_title)).to_have_text('Disclaimer - Secondary Schools')
+        await expect(self._find(SchQuery.PostSecond.disc_title)).to_have_text("Disclaimer - Post-Secondary Schools")
 
     async def post_second_school_disclaimer_info(self):
         await self._look(SchQuery.PostSecond.disclaimer)
-        await expect(self._find(SchQuery.PostSecond.disc_info)).to_contain_text('information accurate')
-        await expect(self._find(SchQuery.PostSecond.disc_info)).to_contain_text('schools for Secondary 1 admission')
+        await expect(self._find(SchQuery.PostSecond.disc_info)).to_contain_text('Joint Admissions Exercise (JAE)')
+        await expect(self._find(SchQuery.PostSecond.disc_info)).to_contain_text('in 2026 will be updated in August')
 
     async def post_second_school_disclaimer_agree(self):
         await self._look(SchQuery.PostSecond.disclaimer)
@@ -256,7 +256,7 @@ class Validation(BasePage):
 
     async def post_second_school_search_result_header(self):
         await self._look(SchQuery.PostSecond.result)
-        await expect(self._find(SchQuery.PostSecond.result_title)).to_have_text('Secondary School')
+        await expect(self._find(SchQuery.PostSecond.result_title)).to_have_text('Post-Secondary School')
         await expect(self._find(SchQuery.PostSecond.result_back)).to_be_enabled()
 
     async def _get_post_second_school_item_count(self) -> int:
