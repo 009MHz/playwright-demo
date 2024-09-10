@@ -75,6 +75,20 @@ class SchQuery:
         result_option_list = "#schoolQueryAllResultsList_secSchool"
         result_option_item = "(//div[@id='schoolListItemsecSchool'])"
 
+    class PostSecond:
+        button = "#postSecSchool"
+        disclaimer = "#disclaimerBlk_postSecSchool"
+        disc_title = f"{disclaimer} .schoolQueryDisclaimerBlockTitle"
+        disc_info = f"{disclaimer} .schoolQueryDisclaimerBlockContent"
+        disc_faq = f"{disclaimer} .schoolFAQItem a"
+        disc_button = "#schoolQueryDisclaimerBlockBtn_postSecSchool"
+        result = "//div[@id='categoryBlk_postSecSchool' and contains(@class,'schoolQueryCatContentBlock')]"
+        result_title = f"{result}//div[@class='schoolQueryCatTitle']"
+        result_back = "#schoolQueryCatBackBtn"
+        result_option_list = "#schoolQueryAllResultsList_secSchool"
+        result_option_item = "(//div[@id='schoolListItemsecSchool'])"
+
+
 
 class BottomMenu:
     one_map = "#onemap3Btn"
