@@ -26,16 +26,21 @@ class SchQuery:
 
     class Kindergarten:
         button = "#kindergarten"
-        disclaimer = "#disclaimerBlk_kindergarten"
+        disclaimer = "div[id='disclaimerBlk_kindergarten']"
         disc_title = f"{disclaimer} .schoolQueryDisclaimerBlockTitle"
         disc_info = f"{disclaimer} .schoolQueryDisclaimerBlockContent"
-        disc_faq = f"{disclaimer} .schoolFAQItem"
+        disc_faq = f"{disclaimer} .schoolFAQItem a"
         disc_button = "#schoolQueryDisclaimerBlockBtn_kindergarten"
-        result = "#categoryBlk_kindergarten"
-        result_title = f"{result} .schoolQueryCatTitle"
-        result_option = "#optionSchoolSearch_kindergarten"
-        result_option_anchor = "#nearbySchoolOpt"
-        result_option_nearby = "#nearbySchoolOptTwo"
+        result = "//div[@id='categoryBlk_kindergarten' and contains(@class,'schoolQueryCatContentBlock')]"
+        result_title = f"{result}//div[@class='schoolQueryCatTitle']"
+        result_print = "#schoolQueryPrintBtn"
+        result_back = "#schoolQueryCatBackBtn"
+        result_option = "//div[@id='optionSchoolSearch_kindergarten']"
+        result_option_anchor = f"{result_option}//div[@id='nearbySchoolOpt']"
+        result_anchor_near_title = "(//div[@class='bufferTitle'])[1]"
+        result_anchor_far_title = "(//div[@class='bufferTitle'])[2]"
+        result_option_nearby = f"{result_option}//div[@id='nearbySchoolOptTwo']"
+        result_nearby_list = "#schoolQueryAllResultsList_kindergarten"
         result_nearby_item = "(//div[@id='schoolListItemkindergarten'])"
 
 
