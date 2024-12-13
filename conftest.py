@@ -43,6 +43,22 @@ async def page(browser):
     await page_instance.close()
 
 
+@pytest.fixture()
+async def user_auth(browser):
+    page_instance = await runner.setup_auth_page("user")
+    yield page_instance
+    await runner.capture_handler()
+    await page_instance.close()
+
+
+@pytest.fixture()
+async def admin_auth(browser):
+    page_instance = await runner.setup_auth_page("admin")
+    yield page_instance
+    await runner.capture_handler()
+    await page_instance.close()
+
+
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     outcome = yield
