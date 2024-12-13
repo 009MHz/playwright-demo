@@ -29,6 +29,11 @@ class LogInPageInteraction(BasePage):
     async def click_login_btn(self):
         await self._click(Interactor.login_btn)
 
+    async def close_success_banner(self):
+        await expect(self._find(PageInfo.banner_main)).to_contain_text("You logged out of the secure area!")
+        await self._click(PageInfo.banner_close)
+        await expect(self._find(PageInfo.banner_main)).not_to_be_visible()
+
 
 class LoginPageValidation(BasePage):
     async def header_presence(self):
@@ -63,3 +68,11 @@ class LoginPageValidation(BasePage):
         await self._look(Interactor.login_btn)
         await expect(self._find(Interactor.login_btn)).to_be_enabled()
         await expect(self._find(Interactor.login_btn)).to_contain_text("Login")
+
+    async def logout_banner_presence(self):
+        await self._look(PageInfo.banner_main)
+        await expect(self._find(PageInfo.banner_main)).to_contain_text("You logged out of the secure area!")
+
+    async def logout_banner_close(self):
+        await self._look(PageInfo.banner_close)
+        await expect(self._find(PageInfo.banner_close)).to_be_enabled()
