@@ -4,6 +4,7 @@ import asyncio
 import allure
 from utils.browser_config import Config
 from playwright.async_api import async_playwright
+from dotenv import load_dotenv
 
 runner = Config()
 
@@ -12,28 +13,26 @@ def pytest_addoption(parser):
     parser.addoption('--env', action='store', default='test', help='Specify the test environment')
     parser.addoption('--mode', help='Specify the execution mode: local, grid, pipeline', default='local')
     parser.addoption('--headless', action='store_true', default=False, help='Run tests in headless mode')
-    parser.addoption('--browsers', action='store', default='chromium',
-                     help='Comma-separated list of browsers to run tests on: chromium, firefox, webkit')
 
 
 def pytest_configure(config):
     os.environ["env"] = config.getoption('env')
     os.environ["mode"] = config.getoption('mode') or 'local'
     os.environ["headless"] = str(config.getoption('headless'))
+    load_dotenv(".env")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture()
 async def playwright():
     async with async_playwright() as playwright:
         yield playwright
 
 
-@pytest.fixture(scope="session")
-async def browser(playwright, request):
-    browsers = request.config.getoption('browsers').split(',')
-    for browser_type in browsers:
-        await runner.setup_browser(playwright, browser_type)
-        yield runner.browsers[browser_type]
+@pytest.fixture()
+async def browser(playwright):
+    await runner.setup_browser(playwright)
+    yield runner.browser
+    await runner.browser.close()
 
 
 @pytest.fixture()
@@ -49,7 +48,7 @@ def pytest_runtest_makereport(item, call):
     outcome = yield
     rep = outcome.get_result()
 
-    if rep.when == "call" and rep.failed:
+    if rep.when == "call":  # if rep.when == "call" and rep.failed: # config on fail only
         screenshot_path = os.path.join("reports/screenshots", f"{item.name}.png")
         os.makedirs(os.path.dirname(screenshot_path), exist_ok=True)
 
@@ -68,13 +67,14 @@ def pytest_runtest_makereport(item, call):
             print(f"Failed to take screenshot: {e}")
 
 
-def pytest_generate_tests(metafunc):
-    browsers = metafunc.config.getoption('browsers').split(',')
-    if 'browser' in metafunc.fixturenames:
-        metafunc.parametrize('browser', browsers, scope='session', indirect=True)
-
-
-@pytest.fixture(autouse=True)
-def _browser_per_test(request, browser):
-    if request.cls is not None:
-        request.cls.browser = browser
+#
+# def pytest_generate_tests(metafunc):
+#     browsers = metafunc.config.getoption('browsers').split(',')
+#     if 'browser' in metafunc.fixturenames:
+#         metafunc.parametrize('browser', browsers, scope='session', indirect=True)
+#
+#
+# @pytest.fixture(autouse=True)
+# def _browser_per_test(request, browser):
+#     if request.cls is not None:
+#         request.cls.browser = browser
