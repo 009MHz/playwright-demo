@@ -6,7 +6,8 @@ class Url:
 class PageInfo:
     header = "h2"
     sub_header = ".subheader"
-    toast = "#flash"
+    banner_main = "#flash"
+    banner_close = ".close"
 
 
 class Interactor:
