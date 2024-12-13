@@ -18,4 +18,5 @@ class Interactor:
 
 
 class PostSuccess:
+    URL = "https://the-internet.herokuapp.com/secure"
     logout_btn = ".button.secondary.radius"
