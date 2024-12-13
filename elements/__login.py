@@ -4,7 +4,7 @@ class Url:
 
 
 class PageInfo:
-    header = "//div[@id='content']//h2"
+    header = "h2"
     sub_header = ".subheader"
     toast = "#flash"
 
