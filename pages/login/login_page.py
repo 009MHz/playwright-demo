@@ -24,7 +24,7 @@ class LogInPageInteraction(BasePage):
     async def password_insert(self, password: str):
         await expect(self._find(Interactor.password_input)).to_be_empty()
         await self._type(Interactor.password_input, password)
-        await expect(self._find(Interactor.password_input)).not_to_be_empty("")
+        await expect(self._find(Interactor.password_input)).not_to_be_empty()
 
     async def click_login_btn(self):
         await self._click(Interactor.login_btn)
