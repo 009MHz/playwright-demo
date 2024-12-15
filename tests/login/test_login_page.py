@@ -39,8 +39,12 @@ class TestLoginInitPage:
             await login.check.login_button()
 
     @pytest.mark.positive
+    @allure.severity(severity.BLOCKER)
+    @allure.feature(
+        "Login Page/ Username field",
+        "Login Page/ Password field",
+        "Login Page/ Login Button")
     @allure.title("Normal Login Page Action Flow")
-    @allure.severity(severity.CRITICAL)
     async def test_login_flow_action(self, login):
         with allure.step("1. Insert a valid username on the username field"):
             await login.action.username_insert("tomsmith")
