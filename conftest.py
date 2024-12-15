@@ -39,7 +39,7 @@ async def browser(playwright):
 async def page(browser):
     page_instance = await runner.setup_page()
     yield page_instance
-    await runner.capture_handler()
+    # await runner.capture_handler()
     await page_instance.close()
 
 
@@ -47,7 +47,7 @@ async def page(browser):
 async def user_auth(browser):
     page_instance = await runner.setup_auth_page("user")
     yield page_instance
-    await runner.capture_handler()
+    # await runner.capture_handler()
     await page_instance.close()
 
 
@@ -55,7 +55,7 @@ async def user_auth(browser):
 async def admin_auth(browser):
     page_instance = await runner.setup_auth_page("admin")
     yield page_instance
-    await runner.capture_handler()
+    # await runner.capture_handler()
     await page_instance.close()
 
 
