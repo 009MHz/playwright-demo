@@ -1,5 +1,4 @@
 import os
-
 import allure
 from playwright.async_api import Page
 
@@ -43,16 +42,16 @@ class BasePage:
 
         :param filename: The name of the screenshot file (e.g., "Invalid Username Banner").
         """
-        image_result = f"{filename.replace(' ', '_')}.png"
-        screenshot_path = os.path.join("reports/screenshots/", image_result)
+        screenshot_mode = os.environ.get("screenshot")
+        if screenshot_mode not in ["off", None]:
+            image_result = f"{filename.replace(' ', '_')}.png"
+            screenshot_path = os.path.join("reports/screenshots/", image_result)
 
-        # Capture the screenshot
-        await self.page.screenshot(path=screenshot_path, full_page=True)
+            await self.page.screenshot(path=screenshot_path, full_page=True)
 
-        # Attach the screenshot to Allure
-        with open(screenshot_path, "rb") as screenshot_file:
-            allure.attach(
-                screenshot_file.read(),
-                name=filename,
-                attachment_type=allure.attachment_type.PNG
-            )
+            with open(screenshot_path, "rb") as screenshot_file:
+                allure.attach(
+                    screenshot_file.read(),
+                    name=filename,
+                    attachment_type=allure.attachment_type.PNG
+                )
