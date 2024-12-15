@@ -34,6 +34,16 @@ class LogInPageInteraction(BasePage):
         await self._click(PageInfo.banner_close)
         await expect(self._find(PageInfo.banner_main)).not_to_be_visible()
 
+    async def close_invalid_user_banner(self):
+        await expect(self._find(PageInfo.banner_main)).to_contain_text("username is invalid!")
+        await self._click(PageInfo.banner_close)
+        await expect(self._find(PageInfo.banner_main)).not_to_be_visible()
+
+    async def close_invalid_password_banner(self):
+        await expect(self._find(PageInfo.banner_main)).to_contain_text("password is invalid!")
+        await self._click(PageInfo.banner_close)
+        await expect(self._find(PageInfo.banner_main)).not_to_be_visible()
+
 
 class LoginPageValidation(BasePage):
     async def header_presence(self):
