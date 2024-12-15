@@ -39,9 +39,9 @@ class BasePage:
 
     async def _capture(self, filename: str):
         """
-        Captures a screenshot of the current page and uploads it directly to Allure.
+        Captures a screenshot of the current step/function and uploads it directly to Allure.
 
-        :param filename: The name of the screenshot file (e.g., "invalid_username_banner").
+        :param filename: The name of the screenshot file (e.g., "Invalid Username Banner").
         """
         image_result = f"{filename.replace(' ', '_')}.png"
         screenshot_path = os.path.join("reports/screenshots/", image_result)
