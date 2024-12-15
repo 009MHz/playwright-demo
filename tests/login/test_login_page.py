@@ -18,15 +18,21 @@ async def login(page):
 @pytest.mark.smoke
 class TestLoginInitPage:
     @pytest.mark.positive
-    @allure.title("Login Page Initial State Check")
-    @allure.severity(severity.CRITICAL)
-    async def test_login_initial_state(self, login):
-        allure.dynamic.severity(severity.NORMAL)
+    @allure.title("Login Page Initial State Check: Page Header & Information")
+    @allure.severity(severity.NORMAL)
+    @allure.feature("Login Page/ Page Info/ Header")
+    async def test_login_initial_state_page_header(self, login):
         with allure.step("Check Initial Header existence"):
             await login.check.header_presence()
             await login.check.subheader_presence()
 
-        allure.dynamic.severity(severity.BLOCKER)
+    @allure.title("Login Page Initial State Check: Login Form Component")
+    @allure.severity(severity.BLOCKER)
+    @allure.feature(
+        "Login Page/ Username field",
+        "Login Page/ Password field",
+        "Login Page/ Login Button")
+    async def test_login_initial_state_page_main_form(self, login):
         with allure.step("Check Initial main field existence"):
             await login.check.username_field()
             await login.check.password_field()
