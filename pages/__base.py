@@ -1,3 +1,6 @@
+import os
+
+import allure
 from playwright.async_api import Page
 
 
@@ -33,3 +36,23 @@ class BasePage:
     async def _force(self, locator: str, timeout: int = 25000):
         await self._touch(locator, timeout)
         await self.page.locator(locator).click(force=True, delay=500)
+
+    async def _capture(self, filename: str):
+        """
+        Captures a screenshot of the current page and uploads it directly to Allure.
+
+        :param filename: The name of the screenshot file (e.g., "invalid_username_banner").
+        """
+        image_result = f"{filename.replace(' ', '_')}.png"
+        screenshot_path = os.path.join("reports/screenshots/", image_result)
+
+        # Capture the screenshot
+        await self.page.screenshot(path=screenshot_path, full_page=True)
+
+        # Attach the screenshot to Allure
+        with open(screenshot_path, "rb") as screenshot_file:
+            allure.attach(
+                screenshot_file.read(),
+                name=filename,
+                attachment_type=allure.attachment_type.PNG
+            )
