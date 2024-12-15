@@ -1,4 +1,3 @@
-import re
 from pages.__base import BasePage
 from elements.__login import *
 from playwright.async_api import Page, expect
@@ -74,6 +73,7 @@ class LoginPageValidation(BasePage):
         await expect(self._find(Interactor.password_input)).to_be_enabled()
         await expect(self._find(Interactor.password_input)).to_have_value('')
 
+    """Successful Banner"""
     async def login_button(self):
         await self._look(Interactor.login_btn)
         await expect(self._find(Interactor.login_btn)).to_be_enabled()
@@ -86,3 +86,17 @@ class LoginPageValidation(BasePage):
     async def logout_banner_close(self):
         await self._look(PageInfo.banner_close)
         await expect(self._find(PageInfo.banner_close)).to_be_enabled()
+
+    """Invalid Banner"""
+    async def invalid_banner_username(self):
+        await self._look(PageInfo.banner_main)
+        await expect(self._find(PageInfo.banner_main)).to_contain_text("username is invalid!")
+        await expect(self._find(PageInfo.banner_close)).to_be_enabled()
+        await self._capture("Invalid Username Banner")
+
+    async def invalid_banner_password(self):
+        await self._look(PageInfo.banner_main)
+        await expect(self._find(PageInfo.banner_main)).to_contain_text("password is invalid!")
+        await expect(self._find(PageInfo.banner_close)).to_be_enabled()
+        await self._capture("Invalid Password Banner")
+
