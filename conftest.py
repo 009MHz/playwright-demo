@@ -1,3 +1,4 @@
+import logging
 import pytest
 import os
 import asyncio
@@ -19,6 +20,7 @@ def pytest_configure(config):
     os.environ["env"] = config.getoption('env')
     os.environ["mode"] = config.getoption('mode') or 'local'
     os.environ["headless"] = str(config.getoption('headless'))
+    os.environ["screenshot"] = config.getoption('screenshot')
     load_dotenv(".env")
 
 
@@ -64,7 +66,18 @@ def pytest_runtest_makereport(item, call):
     outcome = yield
     rep = outcome.get_result()
 
-    if rep.when == "call":  # if rep.when == "call" and rep.failed: # config on fail only
+    screenshot_mode = os.environ.get("screenshot", "off")
+
+    # Reporter Flag based on CLI
+    extract_attachment = False
+    if screenshot_mode == "on":
+        extract_attachment = rep.when == "call"
+    elif screenshot_mode == "only-on-failure":
+        extract_attachment = rep.when == "call" and rep.failed
+    else:
+        extract_attachment = False
+
+    if extract_attachment:
         screenshot_path = os.path.join("reports/screenshots", f"{item.name}.png")
         os.makedirs(os.path.dirname(screenshot_path), exist_ok=True)
 
@@ -76,12 +89,11 @@ def pytest_runtest_makereport(item, call):
                 with open(screenshot_path, "rb") as image_file:
                     allure.attach(
                         image_file.read(),
-                        name="screenshot",
+                        name=item.name,
                         attachment_type=allure.attachment_type.PNG
                     )
         except Exception as e:
-            print(f"Failed to take screenshot: {e}")
-
+            logging.error(f"Failed to take screenshot for {item.name}: {e}")
 
 #
 # def pytest_generate_tests(metafunc):
