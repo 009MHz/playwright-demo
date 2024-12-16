@@ -12,10 +12,10 @@ class LoginInit(LoginPage):
 
     async def create_session(self, username: str, password: str):
         logger.info("Opening Login Page")
-        await self.action.open_page()
+        await self.open_page()
         logger.info(f"Providing username type: {username}")
-        await self.action.username_insert(username)
+        await self.username_insert(username)
         logger.info("Providing Valid Password")
-        await self.action.password_insert(password)
-        await self.action.click_login_btn()
-        await expect(self.page).to_have_url("/secure")
+        await self.password_insert(password)
+        await self.click_login_btn()
+        assert r'/secure' in self.page.url
