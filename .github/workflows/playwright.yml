@@ -2,9 +2,7 @@ name: Git Pipeline Test
 
 on:
   push:
-    branches:
-    - main
-    - feat__git_workflow
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
