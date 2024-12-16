@@ -49,20 +49,6 @@ class Config:
         self.page = await context.new_page()
         return self.page
 
-    # async def capture_handler(self):
-    #     screenshot_option = os.getenv("screenshot", "off")
-    #     if screenshot_option != "off":
-    #         file_name = f"{await self.page.title()}.png"
-    #         screenshot_path = f"reports/screenshots/{file_name.replace(' ', '_')}.png.png"
-    #         os.makedirs(os.path.dirname(screenshot_path), exist_ok=True)
-    #         await self.page.screenshot(path=screenshot_path, full_page=True)
-    #
-    #         with open(screenshot_path, "rb") as screenshot_file:
-    #             allure.attach(
-    #                 screenshot_file.read(),
-    #                 name=file_name,
-    #                 attachment_type=allure.attachment_type.PNG)
-
 
 logging.getLogger('asyncio').setLevel(logging.WARNING)
 logging.getLogger('filelock').setLevel(logging.CRITICAL)

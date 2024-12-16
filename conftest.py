@@ -49,7 +49,6 @@ async def page(browser):
 async def user_auth(browser):
     page_instance = await runner.setup_auth_page("user")
     yield page_instance
-    # await runner.capture_handler()
     await page_instance.close()
 
 
@@ -57,7 +56,6 @@ async def user_auth(browser):
 async def admin_auth(browser):
     page_instance = await runner.setup_auth_page("admin")
     yield page_instance
-    # await runner.capture_handler()
     await page_instance.close()
 
 
@@ -69,7 +67,6 @@ def pytest_runtest_makereport(item, call):
     screenshot_mode = os.environ.get("screenshot", "off")
 
     # Reporter Flag based on CLI
-    extract_attachment = False
     if screenshot_mode == "on":
         extract_attachment = rep.when == "call"
     elif screenshot_mode == "only-on-failure":
