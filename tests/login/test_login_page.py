@@ -1,4 +1,5 @@
 import pytest
+from pages.login import PreCond
 from pages.login.login_page import LoginPage
 import allure
 from allure import severity_level as severity
@@ -7,8 +8,8 @@ from allure import severity_level as severity
 @pytest.fixture(scope='function')
 async def login(page):
     login = LoginPage(page)
-    with allure.step("▸ Navigate to HerokuApp Login page"):
-        await login.action.open_page()
+    pre_condition = PreCond(login.page)
+    await pre_condition.load_login_page()
     return login
 
 
