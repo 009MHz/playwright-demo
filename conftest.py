@@ -53,8 +53,8 @@ async def user_auth(browser):
 
 
 @pytest.fixture()
-async def admin_auth(browser):
-    page_instance = await runner.setup_auth_page("admin")
+async def basic_auth(browser):
+    page_instance = await runner.setup_auth_page("basic")
     yield page_instance
     await page_instance.close()
 
