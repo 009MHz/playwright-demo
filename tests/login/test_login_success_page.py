@@ -20,9 +20,8 @@ async def success(page):
     return success
 
 
-@allure.epic("Login Page")
+@allure.epic("Login Success Page")
 @allure.story("Login Success Page - Unit Test")
-@allure.feature("Login Page Success")
 @pytest.mark.smoke
 class TestLoginSuccessPage:
     @pytest.mark.positive

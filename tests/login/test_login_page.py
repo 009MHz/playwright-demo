@@ -15,7 +15,6 @@ async def login(page):
 
 @allure.epic("Login Page")
 @allure.story("Login Page - Unit Test")
-@allure.feature("Login Page")
 @pytest.mark.smoke
 class TestLoginInitPage:
     @pytest.mark.positive
