@@ -18,9 +18,9 @@ class SuccessPage(BasePage):
         await self._click(PostSuccess.logout_btn)
 
     """# Success Page Validation"""
-    async def url_redirection(self, url_path: str):
+    async def validate_url_redirection(self):
         url_redir = self.page.url
-        assert url_path in url_redir
+        assert "secure" in url_redir
 
     async def banner_presence(self):
         await self._look(PageInfo.banner_main)
