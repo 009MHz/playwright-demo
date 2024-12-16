@@ -1,5 +1,6 @@
 import os
 import logging
+from utils.sess_handler import SessionHandler
 
 
 class Config:
@@ -28,6 +29,8 @@ class Config:
             self.browser = await playwright[browser_type].connect(server_url)
         else:
             raise ValueError(f"Unsupported execution type: {mode}")
+
+        self.session_handler = SessionHandler(self.browser, headless)
 
     async def context_init(self, storage_state=None, user_type="user"):
         context_options = {
