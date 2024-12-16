@@ -6,11 +6,8 @@ from playwright.async_api import Page, expect
 class LoginPage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
-        self.action = LogInPageInteraction(page)
-        self.check = LoginPageValidation(page)
 
-
-class LogInPageInteraction(BasePage):
+    """Login Page Interaction"""
     async def open_page(self):
         await self.page.goto(Url.login)
         assert r'/login' in self.page.url, f"Incorrect URL: {self.page.url} detected"
@@ -43,14 +40,16 @@ class LogInPageInteraction(BasePage):
         await self._click(PageInfo.banner_close)
         await expect(self._find(PageInfo.banner_main)).not_to_be_visible()
 
+    """Login Page Validation: Page Info"""
+    async def url_redirection(self):
+        assert r'/login' in self.page.url, f"Incorrect URL: {self.page.url} detected"
 
-class LoginPageValidation(BasePage):
     async def header_presence(self):
         await self._look(PageInfo.header)
         page_header = await self._find(PageInfo.header).text_content()
         assert page_header == "Login Page", f"The Current page title:{page_header} not match with 'Login Page'"
 
-    async def subheader_presence(self):
+    async def validate_subheader_presence(self):
         await self._look(PageInfo.sub_header)
         await expect(self._find(PageInfo.sub_header)).to_contain_text(
             "This is where you can log into the secure area")
@@ -73,7 +72,7 @@ class LoginPageValidation(BasePage):
         await expect(self._find(Interactor.password_input)).to_be_enabled()
         await expect(self._find(Interactor.password_input)).to_have_value('')
 
-    """Successful Banner"""
+    """Login Page Validation: Successful Banner"""
     async def login_button(self):
         await self._look(Interactor.login_btn)
         await expect(self._find(Interactor.login_btn)).to_be_enabled()
@@ -82,12 +81,13 @@ class LoginPageValidation(BasePage):
     async def logout_banner_presence(self):
         await self._look(PageInfo.banner_main)
         await expect(self._find(PageInfo.banner_main)).to_contain_text("You logged out of the secure area!")
+        await self._capture("Logout Success Banner")
 
     async def logout_banner_close(self):
         await self._look(PageInfo.banner_close)
         await expect(self._find(PageInfo.banner_close)).to_be_enabled()
 
-    """Invalid Banner"""
+    """"Login Page Validation: Invalid Banner"""
     async def invalid_banner_username(self):
         await self._look(PageInfo.banner_main)
         await expect(self._find(PageInfo.banner_main)).to_contain_text("username is invalid!")

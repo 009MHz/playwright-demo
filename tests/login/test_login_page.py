@@ -23,8 +23,8 @@ class TestLoginInitPage:
     @allure.feature("Login Page/ Page Info/ Header")
     async def test_login_initial_state_page_header(self, login):
         with allure.step("Check Initial Header existence"):
-            await login.check.header_presence()
-            await login.check.subheader_presence()
+            await login.header_presence()
+            await login.validate_subheader_presence()
 
     @allure.title("Login Page Initial State Check: Login Form Component")
     @allure.severity(severity.BLOCKER)
@@ -34,9 +34,9 @@ class TestLoginInitPage:
         "Login Page/ Login Button")
     async def test_login_initial_state_page_main_form(self, login):
         with allure.step("Check Initial main field existence"):
-            await login.check.username_field()
-            await login.check.password_field()
-            await login.check.login_button()
+            await login.username_field()
+            await login.password_field()
+            await login.login_button()
 
     @pytest.mark.positive
     @allure.severity(severity.BLOCKER)
@@ -47,13 +47,13 @@ class TestLoginInitPage:
     @allure.title("Normal Login Page Action Flow")
     async def test_login_flow_action(self, login):
         with allure.step("1. Insert a valid username on the username field"):
-            await login.action.username_insert("tomsmith")
+            await login.username_insert("tomsmith")
 
         with allure.step("2. Insert a valid password on the password field"):
-            await login.action.password_insert("SuperSecretPassword!")
+            await login.password_insert("SuperSecretPassword!")
 
         with allure.step("3. Click on the Login Button"):
-            await login.action.click_login_btn()
+            await login.click_login_btn()
 
     @pytest.mark.negative
     @allure.severity(severity.NORMAL)
@@ -66,7 +66,7 @@ class TestLoginInitPage:
             allure.dynamic.title("Invalid username should return the correct banner")
             allure.dynamic.feature("Login Page/ Page Info/ Banner/ Invalid Username/ Incorrect")
             with allure.step("1. Insert the invalid username on the username field"):
-                await login.action.username_insert("PlaywrightQaTest")
+                await login.username_insert("PlaywrightQaTest")
 
         elif scheme == "empty":
             allure.dynamic.title("Empty username should return the correct banner")
@@ -75,16 +75,16 @@ class TestLoginInitPage:
                 pass
 
         with allure.step("2. Insert a valid password on the password field"):
-            await login.action.password_insert("SuperSecretPassword!")
+            await login.password_insert("SuperSecretPassword!")
 
         with allure.step("3. Click on the Login Button"):
-            await login.action.click_login_btn()
+            await login.click_login_btn()
 
         with allure.step("4. Verify the invalid username banner"):
-            await login.check.invalid_banner_username()
+            await login.invalid_banner_username()
 
         with allure.step("5. Close the invalid username banner"):
-            await login.action.close_invalid_user_banner()
+            await login.close_invalid_user_banner()
 
     @pytest.mark.negative
     @pytest.mark.parametrize("scheme", ["incorrect", "empty"])
@@ -94,13 +94,13 @@ class TestLoginInitPage:
         "Login Page/ Page Info/ Banner/ Invalid Password")
     async def test_invalid_password_banner(self, login, scheme):
         with allure.step("1. Insert a valid username in the username field"):
-            await login.action.username_insert("tomsmith")
+            await login.username_insert("tomsmith")
 
         if scheme == "incorrect":
             allure.dynamic.title("Invalid password should return the correct banner")
             allure.dynamic.feature("Login Page/ Page Info/ Banner/ Invalid Password/ Incorrect")
             with allure.step("2. Insert the invalid username on the username field"):
-                await login.action.password_insert("PlaywrightQaTest")
+                await login.password_insert("PlaywrightQaTest")
 
         elif scheme == "empty":
             allure.dynamic.title("Empty password should return the correct banner")
@@ -109,10 +109,10 @@ class TestLoginInitPage:
                 pass
 
         with allure.step("3. Click on the Login Button"):
-            await login.action.click_login_btn()
+            await login.click_login_btn()
 
         with allure.step("4. Verify the invalid password banner"):
-            await login.check.invalid_banner_password()
+            await login.invalid_banner_password()
 
         with allure.step("5. Close the invalid password banner"):
-            await login.action.close_invalid_password_banner()
+            await login.close_invalid_password_banner()
