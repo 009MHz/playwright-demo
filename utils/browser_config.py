@@ -1,5 +1,6 @@
 import os
 import logging
+from utils.sess_handler import SessionHandler
 
 
 class Config:
@@ -29,7 +30,7 @@ class Config:
         else:
             raise ValueError(f"Unsupported execution type: {mode}")
 
-        # self.session_handler = SessionHandler(self.browser, headless)
+        self.session_handler = SessionHandler(self.browser, headless)
 
     async def context_init(self, storage_state=None, user_type="user"):
         context_options = {
@@ -51,13 +52,6 @@ class Config:
         self.page = await context.new_page()
         return self.page
 
-    async def capture_handler(self):
-        screenshot_option = os.getenv("screenshot", "off")
-        if screenshot_option != "off":
-            screenshot_path = f"reports/screenshots/{await self.page.title()}.png"
-            os.makedirs(os.path.dirname(screenshot_path), exist_ok=True)
-            await self.page.screenshot(path=screenshot_path, full_page=True)
 
-
-logging.getLogger('asyncio').setLevel(logging.CRITICAL)
+logging.getLogger('asyncio').setLevel(logging.WARNING)
 logging.getLogger('filelock').setLevel(logging.CRITICAL)

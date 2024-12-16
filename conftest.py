@@ -1,8 +1,11 @@
+import logging
 import pytest
 import os
 import asyncio
+import allure
 from utils.browser_config import Config
 from playwright.async_api import async_playwright
+from dotenv import load_dotenv
 
 runner = Config()
 
@@ -17,6 +20,8 @@ def pytest_configure(config):
     os.environ["env"] = config.getoption('env')
     os.environ["mode"] = config.getoption('mode') or 'local'
     os.environ["headless"] = str(config.getoption('headless'))
+    os.environ["screenshot"] = config.getoption('screenshot')
+    load_dotenv(".env")
 
 
 @pytest.fixture()
@@ -36,7 +41,7 @@ async def browser(playwright):
 async def page(browser):
     page_instance = await runner.setup_page()
     yield page_instance
-    await runner.capture_handler()
+    # await runner.capture_handler()
     await page_instance.close()
 
 
@@ -44,51 +49,57 @@ async def page(browser):
 async def user_auth(browser):
     page_instance = await runner.setup_auth_page("user")
     yield page_instance
-    await runner.capture_handler()
     await page_instance.close()
 
 
 @pytest.fixture()
-async def admin_auth(browser):
-    page_instance = await runner.setup_auth_page("admin")
+async def basic_auth(browser):
+    page_instance = await runner.setup_auth_page("basic")
     yield page_instance
-    await runner.capture_handler()
-    await page_instance.close()
-
-
-@pytest.fixture()
-async def super_auth(browser):
-    page_instance = await runner.setup_auth_page("super_admin")
-    yield page_instance
-    await runner.capture_handler()
     await page_instance.close()
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
-def pytest_runtest_makereport(item, call):
+def pytest_runtest_makereport(item):
     outcome = yield
     rep = outcome.get_result()
 
-    if rep.when == "call" and rep.failed: # config on fail only
+    screenshot_mode = os.environ.get("screenshot", "off")
+
+    # Reporter Flag based on CLI
+    if screenshot_mode == "on":
+        extract_attachment = rep.when == "call"
+    elif screenshot_mode == "only-on-failure":
+        extract_attachment = rep.when == "call" and rep.failed
+    else:
+        extract_attachment = False
+
+    if extract_attachment:
+        screenshot_path = os.path.join("reports/screenshots", f"{item.name}.png")
+        os.makedirs(os.path.dirname(screenshot_path), exist_ok=True)
+
         try:
-            import allure
-        except ImportError:
-            allure = None
+            page = item.funcargs.get('page') or item.funcargs.get('auth_page')
+            if page:
+                loop = asyncio.get_event_loop()
+                loop.run_until_complete(page.screenshot(path=screenshot_path, full_page=True))
+                with open(screenshot_path, "rb") as image_file:
+                    allure.attach(
+                        image_file.read(),
+                        name=item.name,
+                        attachment_type=allure.attachment_type.PNG
+                    )
+        except Exception as e:
+            logging.error(f"Failed to take screenshot for {item.name}: {e}")
 
-        if allure:
-            screenshot_path = os.path.join("reports/screenshots", f"{item.name}.png")
-            os.makedirs(os.path.dirname(screenshot_path), exist_ok=True)
-
-            try:
-                page = item.funcargs.get('page') or item.funcargs.get('auth_page')
-                if page:
-                    loop = asyncio.get_event_loop()
-                    loop.run_until_complete(page.screenshot(path=screenshot_path, full_page=True))
-                    with open(screenshot_path, "rb") as image_file:
-                        allure.attach(
-                            image_file.read(),
-                            name="screenshot",
-                            attachment_type=allure.attachment_type.PNG
-                        )
-            except Exception as e:
-                print(f"Failed to take screenshot: {e}")
+#
+# def pytest_generate_tests(metafunc):
+#     browsers = metafunc.config.getoption('browsers').split(',')
+#     if 'browser' in metafunc.fixturenames:
+#         metafunc.parametrize('browser', browsers, scope='session', indirect=True)
+#
+#
+# @pytest.fixture(autouse=True)
+# def _browser_per_test(request, browser):
+#     if request.cls is not None:
+#         request.cls.browser = browser
