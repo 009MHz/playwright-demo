@@ -34,8 +34,6 @@ def pytest_configure(config):
         os.environ["browser"] = single_mode[0]
     elif not single_mode:
         os.environ["browser"] = "chromium"
-    else:
-        os.environ["browser"] = single_mode
 
     if multi_mode:
         for i in multi_mode.split(','):
