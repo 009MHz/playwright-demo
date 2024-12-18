@@ -35,7 +35,7 @@ class Config:
     async def setup_browser(self, playwright):
         mode = self._test_mode()
         called_browser = self._browser()
-        logging.info(f"Called browser: {called_browser}")
+        # logging.info(f"Called browser: {called_browser}")
         
         if mode in ['pipeline', 'local']:
             self.browser = await playwright[called_browser].launch(**self._browser_args())
