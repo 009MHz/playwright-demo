@@ -31,10 +31,16 @@ def pytest_configure(config):
     browser_option = config.getoption('browser')
     if isinstance(browser_option, list) and len(browser_option) == 1:
         os.environ["browser"] = browser_option[0]
-    elif not browser_option:  # In case no browser option is passed
+    elif not browser_option:
         os.environ["browser"] = "chromium"
     else:
         os.environ["browser"] = browser_option
+
+    logging.info(f"Total browser: {(os.environ['browsers'])}")
+    if os.environ["browsers"]:
+        for i in os.environ["browsers"].split(','):
+            logging.info(i)
+            os.environ["browser"] = i
 
     logging.info(f"Retrieved browser: {os.environ['browser']}")
     load_dotenv(".env")
