@@ -20,6 +20,16 @@ def pytest_configure(config):
     os.environ["mode"] = config.getoption('mode') or 'local'
     os.environ["headless"] = str(config.getoption('headless'))
     os.environ["screenshot"] = config.getoption('screenshot')
+
+    browser_option = config.getoption('browser')
+    if isinstance(browser_option, list) and len(browser_option) == 1:
+        os.environ["browser"] = browser_option[0]
+    elif not browser_option:  # In case no browser option is passed
+        os.environ["browser"] = "chromium"
+    else:
+        os.environ["browser"] = browser_option
+
+    logging.info(f"Retrieved browser: {os.environ['browser']}")
     load_dotenv(".env")
 
 
@@ -91,11 +101,11 @@ def pytest_runtest_makereport(item):
         except Exception as e:
             logging.error(f"Failed to take screenshot for {item.name}: {e}")
 
-#
+
 # def pytest_generate_tests(metafunc):
-#     browsers = metafunc.config.getoption('browsers').split(',')
+#     browser = metafunc.config.getoption('browser').split(',')
 #     if 'browser' in metafunc.fixturenames:
-#         metafunc.parametrize('browser', browsers, scope='session', indirect=True)
+#         metafunc.parametrize('browser', browser, scope='session', indirect=True)
 #
 #
 # @pytest.fixture(autouse=True)
