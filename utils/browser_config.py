@@ -1,5 +1,5 @@
-import os
 import logging
+import os
 from utils.sess_handler import SessionHandler
 
 
@@ -9,32 +9,50 @@ class Config:
         self.page = None
         self.session_handler = None
 
-    def is_headless(self):
-        return os.getenv("headless") == "True"
+    def _headless(self):
+        return os.getenv("headless", "False").lower() == "true"
+
+    def _browser(self) -> str:
+        return os.getenv("BROWSER")
+
+    def _test_mode(self) -> str:
+        return os.getenv("mode")
+
+    def _browser_args(self) -> dict:
+        launch_args = {
+            "args": [
+                "--disable-dev-shm-usage",
+                "--no-sandbox",
+                "--disable-gpu"],
+            "headless": self._headless()
+        }
+
+        if self._browser() == "chromium":
+            launch_args["args"].append("--start-maximized")
+
+        return launch_args
 
     async def setup_browser(self, playwright):
-        browser_type = os.getenv("BROWSER", "chromium")
-        mode = os.getenv("mode")
-        headless = self.is_headless()
-        launch_args = {
-            "headless": headless,
-            "args": ["--start-maximized"]}
-
+        mode = self._test_mode()
+        called_browser = self._browser()
+        logging.info(f"Called browser: {called_browser}")
+        
         if mode in ['pipeline', 'local']:
-            self.browser = await playwright[browser_type].launch(**launch_args)
+            self.browser = await playwright[called_browser].launch(**self._browser_args())
         elif mode == 'grid':
             server_url = "http://remote-playwright-server:4444"
-            self.browser = await playwright[browser_type].connect(server_url)
+            self.browser = await playwright[called_browser].connect(server_url)
         else:
             raise ValueError(f"Unsupported execution type: {mode}")
 
-        self.session_handler = SessionHandler(self.browser, headless)
+        self.session_handler = SessionHandler(self.browser, self._headless())
 
     async def context_init(self, storage_state=None, user_type="user"):
         context_options = {
-            "viewport": {"width": 1920, "height": 1080} if self.is_headless() else None,
-            "no_viewport": not self.is_headless()}
-
+            "viewport": {"width": 1920, "height": 1080},
+            "no_viewport": not self._headless()
+        }
+        
         if storage_state:
             context_options["storage_state"] = await self.session_handler.create_session(user_type)
 

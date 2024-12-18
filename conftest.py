@@ -14,12 +14,34 @@ def pytest_addoption(parser):
     parser.addoption('--env', action='store', default='test', help='Specify the test environment')
     parser.addoption('--mode', help='Specify the execution mode: local, grid, pipeline', default='local')
     parser.addoption('--headless', action='store_true', default=False, help='Run tests in headless mode')
+    parser.addoption(
+        '--browsers',
+        action='store',
+        help="Specify browsers (comma-separated): chromium,firefox,webkit"
+    )
 
 
 def pytest_configure(config):
     os.environ["mode"] = config.getoption('mode') or 'local'
     os.environ["headless"] = str(config.getoption('headless'))
     os.environ["screenshot"] = config.getoption('screenshot')
+
+    single_mode = config.getoption('browser')
+    multi_mode = config.getoption('browsers')
+
+    if isinstance(single_mode, list) and len(single_mode) == 1:
+        # logging.info(f"Single browser retrieved: {single_mode}")
+        os.environ["browser"] = single_mode[0]
+    elif not single_mode:
+        os.environ["browser"] = "chromium"
+    else:
+        os.environ["browser"] = single_mode
+
+    if multi_mode:
+        for i in multi_mode.split(','):
+            # logging.info(f"Retrieved multi browser: {i}")
+            os.environ["browser"] = i
+
     load_dotenv(".env")
 
 
@@ -91,14 +113,16 @@ def pytest_runtest_makereport(item):
         except Exception as e:
             logging.error(f"Failed to take screenshot for {item.name}: {e}")
 
-#
-# def pytest_generate_tests(metafunc):
-#     browsers = metafunc.config.getoption('browsers').split(',')
-#     if 'browser' in metafunc.fixturenames:
-#         metafunc.parametrize('browser', browsers, scope='session', indirect=True)
-#
-#
-# @pytest.fixture(autouse=True)
-# def _browser_per_test(request, browser):
-#     if request.cls is not None:
-#         request.cls.browser = browser
+
+def pytest_generate_tests(metafunc):
+    multi_browser = metafunc.config.getoption('browsers')
+    if multi_browser:
+        browsers = multi_browser.split(',')
+        if 'browser' in metafunc.fixturenames:
+            metafunc.parametrize('browser', browsers, indirect=True)
+
+
+@pytest.fixture(autouse=True)
+def _browser_per_test(request, browser):
+    if request.cls is not None:
+        request.cls.browser = browser
