@@ -21,18 +21,13 @@ def _browser_mode(config):
     single_mode = config.getoption('browser')
     multi_mode = config.getoption('browsers')
 
-    browser = "chromium"
-
-    if single_mode:
-        if isinstance(single_mode, str):
-            browser = single_mode
-        elif isinstance(single_mode, list) and len(single_mode) > 0:
-            browser = single_mode[0]
-
-    elif multi_mode:
+    if multi_mode:
         browser_list = multi_mode.split(',')
-        if browser_list:
-            browser = browser_list[0]
+        browser = browser_list[0]
+    elif single_mode:
+        browser = single_mode[0]
+    else:
+        browser = "chromium"
 
     os.environ["browser"] = browser
     return browser
