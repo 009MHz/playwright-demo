@@ -36,7 +36,7 @@ jobs:
 
     - name: Test execution
       run: |
-        pytest --env=test --mode=pipeline --headless --alluredir=allure-results -n=auto --reruns=2 --reruns-delay=3 --screenshot=on
+        pytest --mode=pipeline --headless --alluredir=allure-results -n=auto --reruns=2 --reruns-delay=3 --screenshot=on
 
     - name: Load test report history
       uses: actions/checkout@v4
