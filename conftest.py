@@ -21,26 +21,33 @@ def pytest_addoption(parser):
     )
 
 
-def pytest_configure(config):
-    os.environ["mode"] = config.getoption('mode') or 'local'
-    os.environ["headless"] = str(config.getoption('headless'))
-    os.environ["screenshot"] = config.getoption('screenshot')
-
+def _browser_mode(config):
     single_mode = config.getoption('browser')
     multi_mode = config.getoption('browsers')
 
+    browser = "chromium"
+
     if single_mode:
-        # logging.info(f"Single browser retrieved: {single_mode}")
-        os.environ["browser"] = single_mode[0]
-    elif not single_mode:
-        os.environ["browser"] = "chromium"
+        if isinstance(single_mode, str):
+            browser = single_mode
+        elif isinstance(single_mode, list) and len(single_mode) > 0:
+            browser = single_mode[0]
 
-    if multi_mode:
-        for i in multi_mode.split(','):
-            # logging.info(f"Retrieved multi browser: {i}")
-            os.environ["browser"] = i
+    elif multi_mode:
+        browser_list = multi_mode.split(',')
+        if browser_list:
+            browser = browser_list[0]
 
+    os.environ["browser"] = browser
+    return browser
+
+
+def pytest_configure(config):
     load_dotenv(".env")
+    os.environ["mode"] = config.getoption('mode') or 'local'
+    os.environ["headless"] = str(config.getoption('headless'))
+    os.environ["screenshot"] = config.getoption('screenshot')
+    _browser_mode(config)
 
 
 @pytest.fixture()
