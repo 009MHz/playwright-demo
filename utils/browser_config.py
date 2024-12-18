@@ -13,7 +13,7 @@ class Config:
         return os.getenv("headless", "False").lower() == "true"
 
     def _browser(self) -> str:
-        return os.getenv("BROWSER")
+        return os.getenv("browser")
 
     def _test_mode(self) -> str:
         return os.getenv("mode")
