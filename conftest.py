@@ -14,11 +14,7 @@ def pytest_addoption(parser):
     parser.addoption('--env', action='store', default='test', help='Specify the test environment')
     parser.addoption('--mode', help='Specify the execution mode: local, grid, pipeline', default='local')
     parser.addoption('--headless', action='store_true', default=False, help='Run tests in headless mode')
-    parser.addoption(
-        '--browsers',
-        action='store',
-        help="Specify browsers (comma-separated): chromium,firefox,webkit"
-    )
+    parser.addoption('--browsers', action='store', help="Comma-separated browser: chromium,firefox,webkit")
 
 
 def _browser_mode(config):
