@@ -14,12 +14,19 @@ def pytest_addoption(parser):
     parser.addoption('--env', action='store', default='test', help='Specify the test environment')
     parser.addoption('--mode', help='Specify the execution mode: local, grid, pipeline', default='local')
     parser.addoption('--headless', action='store_true', default=False, help='Run tests in headless mode')
+    parser.addoption(
+        '--browsers',
+        action='store',
+        default='chromium',
+        help="Specify browsers (comma-separated): chromium,firefox,webkit"
+    )
 
 
 def pytest_configure(config):
     os.environ["mode"] = config.getoption('mode') or 'local'
     os.environ["headless"] = str(config.getoption('headless'))
     os.environ["screenshot"] = config.getoption('screenshot')
+    os.environ["browsers"] = config.getoption('browsers')
 
     browser_option = config.getoption('browser')
     if isinstance(browser_option, list) and len(browser_option) == 1:
@@ -102,13 +109,13 @@ def pytest_runtest_makereport(item):
             logging.error(f"Failed to take screenshot for {item.name}: {e}")
 
 
-# def pytest_generate_tests(metafunc):
-#     browser = metafunc.config.getoption('browser').split(',')
-#     if 'browser' in metafunc.fixturenames:
-#         metafunc.parametrize('browser', browser, scope='session', indirect=True)
-#
-#
-# @pytest.fixture(autouse=True)
-# def _browser_per_test(request, browser):
-#     if request.cls is not None:
-#         request.cls.browser = browser
+def pytest_generate_tests(metafunc):
+    browsers = metafunc.config.getoption('browsers').split(',')
+    if 'browser' in metafunc.fixturenames:
+        metafunc.parametrize('browser', browsers, indirect=True)
+
+
+@pytest.fixture(autouse=True)
+def _browser_per_test(request, browser):
+    if request.cls is not None:
+        request.cls.browser = browser
