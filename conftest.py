@@ -62,7 +62,6 @@ async def browser(playwright):
 async def page(browser):
     page_instance = await runner.setup_page()
     yield page_instance
-    # await runner.capture_handler()
     await page_instance.close()
 
 
