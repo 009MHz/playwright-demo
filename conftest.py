@@ -29,7 +29,7 @@ def pytest_configure(config):
     single_mode = config.getoption('browser')
     multi_mode = config.getoption('browsers')
 
-    if isinstance(single_mode, list) and len(single_mode) == 1:
+    if single_mode:
         # logging.info(f"Single browser retrieved: {single_mode}")
         os.environ["browser"] = single_mode[0]
     elif not single_mode:
