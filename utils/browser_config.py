@@ -13,7 +13,7 @@ class Config:
         return os.getenv("headless", "False").lower() == "true"
 
     def _browser(self) -> str:
-        return os.getenv("BROWSER")
+        return os.getenv("browser")
 
     def _test_mode(self) -> str:
         return os.getenv("mode")
@@ -35,7 +35,7 @@ class Config:
     async def setup_browser(self, playwright):
         mode = self._test_mode()
         called_browser = self._browser()
-        logging.info(f"Called browser: {called_browser}")
+        # logging.info(f"Called browser: {called_browser}")
         
         if mode in ['pipeline', 'local']:
             self.browser = await playwright[called_browser].launch(**self._browser_args())
