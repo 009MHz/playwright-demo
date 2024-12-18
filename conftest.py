@@ -17,7 +17,6 @@ def pytest_addoption(parser):
     parser.addoption(
         '--browsers',
         action='store',
-        default='chromium',
         help="Specify browsers (comma-separated): chromium,firefox,webkit"
     )
 
@@ -26,23 +25,23 @@ def pytest_configure(config):
     os.environ["mode"] = config.getoption('mode') or 'local'
     os.environ["headless"] = str(config.getoption('headless'))
     os.environ["screenshot"] = config.getoption('screenshot')
-    os.environ["browsers"] = config.getoption('browsers')
 
-    browser_option = config.getoption('browser')
-    if isinstance(browser_option, list) and len(browser_option) == 1:
-        os.environ["browser"] = browser_option[0]
-    elif not browser_option:
+    single_mode = config.getoption('browser')
+    multi_mode = config.getoption('browsers')
+
+    logging.info(f"Single browser retrieved: {single_mode}")
+    if isinstance(single_mode, list) and len(single_mode) == 1:
+        os.environ["browser"] = single_mode[0]
+    elif not single_mode:
         os.environ["browser"] = "chromium"
     else:
-        os.environ["browser"] = browser_option
+        os.environ["browser"] = single_mode
 
-    logging.info(f"Total browser: {(os.environ['browsers'])}")
-    if os.environ["browsers"]:
-        for i in os.environ["browsers"].split(','):
+    if multi_mode:
+        for i in multi_mode.split(','):
             logging.info(i)
             os.environ["browser"] = i
 
-    logging.info(f"Retrieved browser: {os.environ['browser']}")
     load_dotenv(".env")
 
 
@@ -116,9 +115,11 @@ def pytest_runtest_makereport(item):
 
 
 def pytest_generate_tests(metafunc):
-    browsers = metafunc.config.getoption('browsers').split(',')
-    if 'browser' in metafunc.fixturenames:
-        metafunc.parametrize('browser', browsers, indirect=True)
+    multi_browser = metafunc.config.getoption('browsers')
+    if multi_browser:
+        browsers = multi_browser.split(',')
+        if 'browser' in metafunc.fixturenames:
+            metafunc.parametrize('browser', browsers, indirect=True)
 
 
 @pytest.fixture(autouse=True)
