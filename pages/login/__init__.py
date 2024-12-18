@@ -21,4 +21,4 @@ class PreCond(BasePage):
             await self._type(Interactor.username_input, os.getenv("USERNAME_COMMON"))
             await self._type(Interactor.password_input, os.getenv("PASSWORD_COMMON"))
             await self._click(Interactor.login_btn)
-            assert 'secure' in self.page.url
+            assert 'secure' in self.page.url, f"Login failed, incorrect URL: {self.page.url}"

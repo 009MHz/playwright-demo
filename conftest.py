@@ -17,7 +17,6 @@ def pytest_addoption(parser):
 
 
 def pytest_configure(config):
-    os.environ["env"] = config.getoption('env')
     os.environ["mode"] = config.getoption('mode') or 'local'
     os.environ["headless"] = str(config.getoption('headless'))
     os.environ["screenshot"] = config.getoption('screenshot')
