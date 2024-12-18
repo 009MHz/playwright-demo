@@ -29,8 +29,8 @@ def pytest_configure(config):
     single_mode = config.getoption('browser')
     multi_mode = config.getoption('browsers')
 
-    logging.info(f"Single browser retrieved: {single_mode}")
     if isinstance(single_mode, list) and len(single_mode) == 1:
+        # logging.info(f"Single browser retrieved: {single_mode}")
         os.environ["browser"] = single_mode[0]
     elif not single_mode:
         os.environ["browser"] = "chromium"
@@ -39,7 +39,7 @@ def pytest_configure(config):
 
     if multi_mode:
         for i in multi_mode.split(','):
-            logging.info(i)
+            # logging.info(f"Retrieved multi browser: {i}")
             os.environ["browser"] = i
 
     load_dotenv(".env")
