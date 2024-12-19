@@ -110,7 +110,8 @@ This will start a local server and open the Allure report in your default web br
    
 ### Test Runner Config
 - `--headless`: Run tests in headless mode (default: _Non-headless_). 
-- `--browser`: Run tests in a different browser chromium, firefox, or webkit. It can be specified multiple times (default: chromium).   
+- `--browser`: Run tests in a different single browser. `chromium`, `firefox`, or `webkit`.
+- `--browsers`: Run tests in multiple browser at once. The parameter of the browser is the comma-separated. <br>(*e.g:* `webkit,firefox`) 
 - `--device`: Device to be emulated.  
 - `--tracing` Whether to record a trace for each test. on, off, or retain-on-failure (default: off). 
 - `--video` Whether to record video for each test. on, off, or retain-on-failure (default: off). 
@@ -166,5 +167,10 @@ pytest --headless -n=auto --reruns=2 --reruns-delay=3 --screenshot=on --alluredi
 **Running the tests on firefox headless and only capture the attachment when the test is failed*
 ```bash
 pytest --headless --browser=firefox --video=retain-on-failure --screenshot=only-on-failure --full-page-screenshot=on
+```
+
+**Running the tests on multiple headless browsers and only capture the screenshot when the test is failed*
+```bash
+pytest --headless --browsers=firefox,chromium,webkit --screenshot=only-on-failure --full-page-screenshot=on
 ```
 
