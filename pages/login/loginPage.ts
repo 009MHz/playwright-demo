@@ -88,7 +88,7 @@ async passwordFieldPresence(){
 }
 
 //Login Page Validation: Successful Banner
-async loginFuttonPresence(){
+async loginButtonPresence(){
   await this._look(Interactor.login_btn)
   await expect(this._find(Interactor.login_btn)).toBeEnabled()
   await expect(this._find(Interactor.login_btn)).toContainText("Login")
