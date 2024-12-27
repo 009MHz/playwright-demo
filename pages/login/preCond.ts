@@ -1,6 +1,6 @@
 import { BasePage } from '../__base';
 import { Url, Interactor } from '../../elements/__login';
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 
 export class PreCond extends BasePage {
     constructor(page: Page) {
