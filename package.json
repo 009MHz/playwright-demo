@@ -1,0 +1,23 @@
+{
+  "name": "main-ts",
+  "version": "1.0.0",
+  "description": "1. **Set up JavaScript environment:**\r    - Install Node.js and npm.\r    - Install Playwright using npm.\r    - Install Allure Command Line.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "allure": "^0.0.0",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.1",
+    "@types/node": "^22.10.2",
+    "allure-playwright": "^3.0.7",
+    "playwright": "^1.49.1"
+  }
+}
