@@ -176,3 +176,8 @@ reports
 tests/reports
 tests/resume_builder_feature/smoke/data/
 /data/credentials.json
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
