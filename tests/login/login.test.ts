@@ -4,31 +4,31 @@ import { LoginPage } from '../../pages/login/loginPage';
 import { PreCond } from '../../pages/login/PreCond';
 
 test.describe('Login Page - Unit Test', () => {
-    let loginPage: LoginPage;
+    let logIn: LoginPage;
     let preCond: PreCond;
 
     test.beforeEach(async ({ page }) => {
         preCond = new PreCond(page);
-        loginPage = new LoginPage(page);
+        logIn = new LoginPage(page);
         await preCond.loadLoginPage();
     });
 
     test('Login Page Initial State Check: Page Header & Information', async () => {
-        await loginPage.look('h2'); // Header check
-        await loginPage.look('.subheader'); // Sub-header check
+        await logIn.look('h2'); // Header check
+        await logIn.look('.subheader'); // Sub-header check
     });
 
     test('Login Page Initial State Check: Login Form Component', async () => {
-        await loginPage.look('#username'); // Username field check
-        await loginPage.look('#password'); // Password field check
-        await loginPage.look("//button[@type='submit']"); // Login button check
+        await logIn.look('#username'); // Username field check
+        await logIn.look('#password'); // Password field check
+        await logIn.look("//button[@type='submit']"); // Login button check
     });
 
     test('Normal Login Page Action Flow', async () => {
-        await loginPage.usernameInsert('tomsmith');
-        await loginPage.passwordInsert('SuperSecretPassword!');
-        await loginPage.clickLoginBtn();
-        await loginPage.validateLoginSuccess();
+        await logIn.usernameInsert('tomsmith');
+        await logIn.passwordInsert('SuperSecretPassword!');
+        await logIn.clickLoginBtn();
+        await logIn.validateLoginSuccess();
     });
 
     test.describe('Invalid Username Scenarios', () => {
@@ -40,15 +40,15 @@ test.describe('Login Page - Unit Test', () => {
         invalidUsernameTests.forEach(({ scheme, username, description }) => {
             test(`Invalid Username: ${description}`, async () => {
                 if (scheme === 'incorrect') {
-                    await loginPage.usernameInsert(username);
+                    await logIn.usernameInsert(username);
                 }
 
                 if (scheme === 'empty') {
                     // Leave username empty
                 }
 
-                await loginPage.passwordInsert('SuperSecretPassword!');
-                await loginPage.clickLoginBtn();
+                await logIn.passwordInsert('SuperSecretPassword!');
+                await logIn.clickLoginBtn();
                 // Add assertions for invalid username banner
             });
         });
@@ -62,17 +62,17 @@ test.describe('Login Page - Unit Test', () => {
 
         invalidPasswordTests.forEach(({ scheme, password, description }) => {
             test(`Invalid Password: ${description}`, async () => {
-                await loginPage.usernameInsert('tomsmith');
+                await logIn.usernameInsert('tomsmith');
 
                 if (scheme === 'incorrect') {
-                    await loginPage.passwordInsert(password);
+                    await logIn.passwordInsert(password);
                 }
 
                 if (scheme === 'empty') {
                     // Leave password empty
                 }
 
-                await loginPage.clickLoginBtn();
+                await logIn.clickLoginBtn();
                 // Add assertions for invalid password banner
             });
         });
