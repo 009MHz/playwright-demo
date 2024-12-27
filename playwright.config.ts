@@ -13,7 +13,13 @@ export default defineConfig({
   workers: workers,
   reporter: [
     ['list'],
-    ['allure-playwright', { resultsDir: 'reports' }],
+    ['allure-playwright', 
+      {
+        resultsDir: "reports",
+        detail: false,
+        suiteTitle: true
+      }
+    ],
   ],
   use: {
     headless: isHeadless, // Dynamically set headless mode
