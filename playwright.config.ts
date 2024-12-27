@@ -13,7 +13,7 @@ export default defineConfig({
   workers: workers,
   reporter: [
     ['list'],
-    ['allure-playwright', 
+    ['allure-playwright',
       {
         resultsDir: "reports",
         detail: false,
