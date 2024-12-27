@@ -1,5 +1,5 @@
 // File: src/tests/login.spec.ts
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { LoginPage } from '../../pages/login/loginPage';
 import { PreCond } from '../../pages/login/PreCond';
 
