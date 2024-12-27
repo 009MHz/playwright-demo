@@ -2,9 +2,9 @@ name: Git Pipeline Test
 
 on:
   push:
-    branches: [ main-ts ]
+#    branches: [ main-ts ]
   pull_request:
-    branches: [ main-ts ]
+#    branches: [ main-ts ]
 
 permissions:
   contents: write
