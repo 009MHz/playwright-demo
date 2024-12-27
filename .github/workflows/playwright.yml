@@ -2,9 +2,9 @@ name: Git Pipeline Test
 
 on:
   push:
-    branches: [ main-py ]
+    branches: [ main-ts ]
   pull_request:
-    branches: [ main-py ]
+    branches: [ main-ts ]
 
 permissions:
   contents: write
@@ -17,26 +17,23 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
       with:
-        python-version: '3.11'
+        node-version: '18'
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        npm install
+        npx playwright install --with-deps
 
-    - name: Install playwright browsers
-      run: python -m playwright install --with-deps
-
-    - name: Generate Credentials data
+    - name: Generate credentials data
       run: |
-        echo "${{ secrets.TEST_ACCOUNT}}" > .env
+        echo "${{ secrets.TEST_ACCOUNT }}" > .env
 
     - name: Test execution
       run: |
-        pytest --browsers=webkit,firefox,chromium --mode=pipeline --headless --alluredir=allure-results -n=auto --reruns=2 --reruns-delay=3 --screenshot=only-on-failure
+        npx playwright test --headed --config=playwright.config.ts --reporter=allure-playwright --project=all --trace=on-first-retry --output=allure-results
 
     - name: Load test report history
       uses: actions/checkout@v4
