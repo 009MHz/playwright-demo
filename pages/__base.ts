@@ -1,4 +1,7 @@
 import { Page } from '@playwright/test';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as allure from 'allure-js-commons';
 
 export class BasePage {
     constructor(protected page: Page) {}
@@ -40,8 +43,25 @@ export class BasePage {
         await this.page.locator(locator).click({ force: true });
     }
 
-    async _capture(filename: string) {
-        const screenshotPath = `reports/screenshots/${filename.replace(/\s+/g, '_')}.png`;
-        await this.page.screenshot({ path: screenshotPath, fullPage: true });
+    async _capture(filename: string): Promise<void> {
+        /**
+         * Captures a screenshot of the current step/function and uploads it directly to Allure.
+         *
+         * @param filename The name of the screenshot file (e.g., "Invalid Username Banner").
+         */
+        const screenshotMode = process.env.screenshot;
+        if (screenshotMode !== "off" && screenshotMode !== undefined) {
+            const imageResult = `${filename.replace(' ', '_')}.png`;
+            const screenshotPath = path.join("reports/screenshots", imageResult);
+
+            await this.page.screenshot({ path: screenshotPath, fullPage: true });
+
+            const screenshotFile = fs.readFileSync(screenshotPath);
+            allure.attachment(
+                filename,
+                screenshotFile,
+                'image/png'
+            );
+        }
     }
 }
