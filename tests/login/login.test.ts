@@ -48,52 +48,33 @@ test.describe('Login Page - Unit Test', () => {
     await allure.step('3. Click on the "Login" button', async() =>
       logIn.clickLoginBtn());
   });
-
-  // test('Invalid Username should return the correct information', async () => {
-  //   const flow = [
-  //     { scheme: 'incorrect', username: 'InvalidUser' },
-  //     { scheme: 'empty', username: '' }
-  //   ];
-    
-  //   for (const { scheme, username } of flow) {
-  //       await allure.step(`1. Insert \`${username}\` on the username field`, async () => {
-  //         await logIn.usernameInsert(username);
-  //       });
-
-  //     await allure.step('2. Insert a valid password', async () => {
-  //       await logIn.passwordInsert('SuperSecretPassword!');
-  //     });
-
-  //     await allure.step('3. Click on the Login button', async () => {
-  //       await logIn.clickLoginBtn();
-  //     });
-
-  //     await allure.step(`4. Verify the ${scheme} banner`, async () => {
-  //       await logIn.invalidBannerUsernamePresence();
-  //     });
-  //   }
-  // });
-
+  
+  for (const { scheme, username } of [
+    { scheme: "incorrect", username: "InvalidUser" },
+    { scheme: "empty", username: "" },
+  ]) {
+    test(`'${scheme}' username scenario, should return the correct information`, async ({ page }) => {
+      allure.severity("Medium");
+      allure.description(`Scenario: \`${scheme}\``);
+  
+      await allure.step(`1. Insert \`${username}\` on the username field`, async () => {
+        await logIn.usernameInsert(username);
+      });
+  
+      await allure.step('2. Insert a valid password', async () => {
+        await logIn.passwordInsert('SuperSecretPassword!');
+      });
+  
+      await allure.step('3. Click on the Login button', async () => {
+        await logIn.clickLoginBtn();
+      });
+  
+      await allure.step(`4. Verify the ${scheme} banner presence`, async () => {
+        await logIn.invalidBannerUsernamePresence();
+      });
+    });
+  }
 });
-
-    // test.describe('Invalid Username should return the correct banner', () => {
-    //     const invalidUsernameTests = [
-    //         { scheme: 'incorrect', username: 'InvalidUser', description: 'Invalid username' },
-    //         { scheme: 'empty', username: '', description: 'Empty username' },
-    //     ];
-    //             if (scheme === 'incorrect') {
-    //                 await logIn.usernameInsert(username);
-    //             }
-
-    //             if (scheme === 'empty') {
-    //                 // Leave username empty
-    //             }
-
-    //             await logIn.passwordInsert('SuperSecretPassword!');
-    //             await logIn.clickLoginBtn();
-    //             // Add assertions for invalid username banner
-    //         });
-    //     });
 
 //     test.describe('Invalid Password Scenarios', () => {
 //         const invalidPasswordTests = [
