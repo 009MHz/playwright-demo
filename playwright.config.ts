@@ -1,49 +1,42 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const browserName = process.env.BROWSER || 'chromium';
-const isHeadless = process.env.HEADLESS === 'true';
-const retries = process.env.CI ? 2 : 0;
-const workers = process.env.CI ? 1 : undefined;
-
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: retries,
-  workers: workers,
+  workers: undefined,
+  retries: 2,
   reporter: [
     ['list'],
-    ['allure-playwright',
+    [
+      'allure-playwright',
       {
-        resultsDir: "reports",
+        resultsDir: 'reports',
         detail: false,
-        suiteTitle: true
-      }
+        suiteTitle: true,
+        history: false,
+        caches: false,
+      },
     ],
   ],
   use: {
-    headless: isHeadless, // Dynamically set headless mode
+    headless: true,
     trace: 'on-first-retry',
+    screenshot: 'on',
+    video: 'off',
   },
   projects: [
-    // Dynamically select the browser based on the BROWSER environment variable
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'], headless: isHeadless },
+      use: { ...devices['Desktop Chrome'] },
     },
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'], headless: isHeadless },
+      use: { ...devices['Desktop Firefox'] },
     },
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'], headless: isHeadless },
+      use: { ...devices['Desktop Safari'] },
     },
-  ].filter((project) => project.name === browserName || browserName === 'all'), // Run the selected browser or all
-  // Optional: Add a web server configuration if required
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  ],
 });
