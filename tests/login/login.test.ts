@@ -1,7 +1,7 @@
 import * as allure from "allure-js-commons";
 import { test } from "@playwright/test";
 import { LoginPage } from "../../pages/login/loginPage";
-import { PreCond } from "../../pages/login/PreCond";
+import { PreCond } from "../../pages/login/preCond.ts";
 
 export const features = (
   featureList?: string | string[]
