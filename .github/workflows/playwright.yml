@@ -2,9 +2,9 @@ name: Git Pipeline Test
 
 on:
   push:
-#    branches: [ main-ts ]
+    branches: [main-ts]
   pull_request:
-#    branches: [ main-ts ]
+    branches: [main-ts]
 
 permissions:
   contents: write
@@ -14,47 +14,47 @@ jobs:
   test-execution:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
 
-    - name: Install dependencies
-      run: |
-        npm install
-        npx playwright install --with-deps
+      - name: Install dependencies
+        run: |
+          npm install
+          npx playwright install --with-deps
 
-    - name: Generate credentials data
-      run: |
-        echo "${{ secrets.TEST_ACCOUNT }}" > .env
+      - name: Generate credentials data
+        run: |
+          echo "${{ secrets.TEST_ACCOUNT }}" > .env
 
-    - name: Test execution
-      run: |
-        npx playwright test --headed --config=playwright.config.ts --reporter=allure-playwright --project=all --trace=on-first-retry --output=allure-results
+      - name: Test execution
+        run: |
+          npx playwright test --headed --config=playwright.config.ts --reporter=allure-playwright --project=all --trace=on-first-retry --output=allure-results
 
-    - name: Load test report history
-      uses: actions/checkout@v4
-      if: always()
-      continue-on-error: true
-      with:
-        ref: gh-pages
-        path: gh-pages
+      - name: Load test report history
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
 
-    - name: Build test report
-      uses: simple-elf/allure-report-action@v1.7
-      if: always()
-      with:
-        gh_pages: gh-pages
-        allure_history: allure-history
-        allure_results: allure-results
+      - name: Build test report
+        uses: simple-elf/allure-report-action@v1.7
+        if: always()
+        with:
+          gh_pages: gh-pages
+          allure_history: allure-history
+          allure_results: allure-results
 
-    - name: Publish test report
-      uses: peaceiris/actions-gh-pages@v3
-      if: always()
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_branch: gh-pages
-        publish_dir: allure-history
+      - name: Publish test report
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
