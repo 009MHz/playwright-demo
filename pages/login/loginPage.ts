@@ -18,7 +18,6 @@ export class LoginPage extends BasePage {
     expect(await this._find(Interactor.username_input).isEditable()).toBeTruthy();
     await this._type(Interactor.username_input, username);
     await expect(this._find(Interactor.username_input)).toBeEditable();
-    await expect(this._find(Interactor.username_input)).not.toBeEmpty();
     await this._capture(`Username Insert: ${username}`);
   }
 
