@@ -18,14 +18,13 @@ export class LoginPage extends BasePage {
     expect(await this._find(Interactor.username_input).isEditable()).toBeTruthy();
     await this._type(Interactor.username_input, username);
     await expect(this._find(Interactor.username_input)).toBeEditable();
-    await expect(this._find(Interactor.username_input)).not.toBeEmpty();
-    await this._capture(`Username Insert: ${username}`);
+    await this._capture('Username Insert');
   }
 
   async passwordInsert(password: string) {
     expect(await this._find(Interactor.password_input).isVisible()).toBeTruthy();
     await this._type(Interactor.password_input, password);
-    await this._capture(`Password Insert: ${password}`);
+    await this._capture('Password Insert');
   }
 
   async clickLoginBtn() {
@@ -113,7 +112,7 @@ export class LoginPage extends BasePage {
     await this._capture("Invalid Username Banner")
   }
 
-  async invalid_banner_password() {
+  async invalidBannerPasswordPresence() {
     await this._look(PageInfo.banner_main)
     await expect(this._find(PageInfo.banner_main)).toContainText("password is invalid!")
     await expect(this._find(PageInfo.banner_close)).toBeEnabled()

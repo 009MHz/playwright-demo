@@ -33,7 +33,7 @@ jobs:
 
       - name: Test execution
         run: |
-          npx playwright test --headed --config=playwright.config.ts --reporter=allure-playwright --project=all --trace=on-first-retry --output=allure-results
+          npx playwright test --config=playwright.config.ts
 
       - name: Load test report history
         uses: actions/checkout@v4
@@ -49,7 +49,7 @@ jobs:
         with:
           gh_pages: gh-pages
           allure_history: allure-history
-          allure_results: allure-results
+          allure_results: reports
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3

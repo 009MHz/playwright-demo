@@ -1,129 +1,152 @@
 import * as allure from "allure-js-commons";
-import { test } from '@playwright/test';
-import { LoginPage } from '../../pages/login/loginPage';
-import { PreCond } from '../../pages/login/PreCond';
+import { test } from "@playwright/test";
+import { LoginPage } from "../../pages/login/loginPage";
+import { PreCond } from "../../pages/login/preCond.ts";
 
-test.describe('Login Page - Unit Test', () => {
+export const features = (
+  featureList?: string | string[]
+) => {
+  if (features) {
+    const featureList = Array.isArray(features) ? features : [features];
+    featureList.forEach(feature => allure.feature(feature));
+  }
+};
+
+test.describe("Login Page - Unit Test", () => {
   let logIn: LoginPage;
   let preCond: PreCond;
-  
+
   test.beforeEach(async ({ page }) => {
     preCond = new PreCond(page);
     logIn = new LoginPage(page);
-    allure.epic('Login');
-    allure.feature('Login Page Unit Test');
+    allure.epic("Login")
+    allure.story("Login Page Unit Test")
     await preCond.loadLoginPage();
   });
-  
-  test('Login Page Initial State Check: Page Header & Information', async () => {
-    await allure.step('Verify the header existence', async () => 
-      logIn.HeaderPresence());
 
-    await allure.step('Verify the subheader presence', async () => 
-      logIn.SubheaderPresence());
-  });
-    
+  test("Login Page Initial State Check: Page Header & Information", async () => {
+    allure.severity("Medium")
+    features([
+      "Login Page/ Header",
+      "Login Page/ Subheader"
+    ]);
 
-  test('Login Page Initial State Check: Login Form Component', async () => {
-    await allure.step('Verify the "username" field', async() => 
-      logIn.usernameFieldPresence());  
+    await allure.step("Verify the header existence", async () =>
+      logIn.HeaderPresence()
+    );
 
-    await allure.step('Verify the "password" field', async() => 
-      logIn.passwordFieldPresence());  
-
-    await allure.step('Verify the "Login" button', async() => 
-      logIn.loginButtonPresence());        
+    await allure.step("Verify the subheader presence", async () =>
+      logIn.SubheaderPresence()
+    );
   });
 
-  test('Normal Login Page Action Flow', async() => {
-    await allure.step('1. Insert a valid username', async() => 
-      logIn.usernameInsert('tomsmith'));
+  test("Login Page Initial State Check: Login Form Component", async () => {
+    allure.severity("Critical")
+    features([
+      "Login Page/ Login Form",
+      "Login Page/ Login Form/ Username",
+      "Login Page/ Login Form/ Password",
+      "Login Page/ Login Form/ Login Button"
+    ]);
 
-    await allure.step('2. Insert a valid password', async () =>
-      logIn.passwordInsert('SuperSecretPassword!'));
-      
-    await allure.step('3. Click on the "Login" button', async() =>
-      logIn.clickLoginBtn());
+    await allure.step('Verify the "username" field', async () =>
+      logIn.usernameFieldPresence()
+    );
+
+    await allure.step('Verify the "password" field', async () =>
+      logIn.passwordFieldPresence()
+    );
+
+    await allure.step('Verify the "Login" button', async () =>
+      logIn.loginButtonPresence()
+    );
   });
 
-  // test('Invalid Username should return the correct information', async () => {
-  //   const flow = [
-  //     { scheme: 'incorrect', username: 'InvalidUser' },
-  //     { scheme: 'empty', username: '' }
-  //   ];
-    
-  //   for (const { scheme, username } of flow) {
-  //       await allure.step(`1. Insert \`${username}\` on the username field`, async () => {
-  //         await logIn.usernameInsert(username);
-  //       });
+  test("Normal Login Page Action Flow", async () => {
+    allure.severity("Critical")
+    features([
+      "Login Page/ Login Form",
+      "Login Page/ Login Form/ Username",
+      "Login Page/ Login Form/ Password",
+      "Login Page/ Login Form/ Login Button"
+    ]);
 
-  //     await allure.step('2. Insert a valid password', async () => {
-  //       await logIn.passwordInsert('SuperSecretPassword!');
-  //     });
+    await allure.step("Insert a valid username", async () =>
+      logIn.usernameInsert("tomsmith")
+    );
 
-  //     await allure.step('3. Click on the Login button', async () => {
-  //       await logIn.clickLoginBtn();
-  //     });
+    await allure.step("Insert a valid password", async () =>
+      logIn.passwordInsert("SuperSecretPassword!")
+    );
 
-  //     await allure.step(`4. Verify the ${scheme} banner`, async () => {
-  //       await logIn.invalidBannerUsernamePresence();
-  //     });
-  //   }
-  // });
+    await allure.step('Click on the "Login" button', async () =>
+      logIn.clickLoginBtn()
+    );
+  });
 
+  const invalidUsernameScenarios = [
+    { scheme: "incorrect", username: "InvalidUser" },
+    { scheme: "empty", username: "" },
+  ];
+
+  invalidUsernameScenarios.forEach(({ scheme, username }) => {
+    test(`Invalid Username: '${scheme}' scenario`, async () => {
+      allure.severity("Medium")
+      features([
+        "Login Page/ Login Form",
+        "Login Page/ Invalid Banner/",
+        "Login Page/ Invalid Banner/ Invalid Username"
+      ]);
+
+      allure.description(`Scenario: \`${scheme}\``);
+
+      await allure.step(`Insert \`${scheme}\` value on the username field`, async () =>
+        logIn.usernameInsert(username)
+      );
+
+      await allure.step("Insert a valid password", async () =>
+        logIn.passwordInsert("SuperSecretPassword!")
+      );
+
+      await allure.step("Click on the Login button", async () =>
+        logIn.clickLoginBtn()
+      );
+
+      await allure.step(`Verify the ${scheme} banner presence`, async () =>
+        logIn.invalidBannerUsernamePresence()
+      );
+    });
+  });
+
+  const invalidPasswordScenarios = [
+    { scheme: "incorrect", password: "InvalidPassword" },
+    { scheme: "empty", password: "" },
+  ];
+
+  invalidPasswordScenarios.forEach(({ scheme, password }) => {
+    test(`Invalid Password: '${scheme}' scenario`, async () => {
+      allure.severity("Medium")
+      features([
+        "Login Page/ Invalid Banner/",
+        "Login Page/ Invalid Banner/ Invalid Password"
+      ]);
+      allure.description(`Scenario: \`${scheme}\``);
+
+      await allure.step("Insert a valid user on the username field", async () =>
+        logIn.usernameInsert("tomsmith")
+      );
+
+      await allure.step(`Insert \`${scheme}\` value on the password field`, async () =>
+        logIn.passwordInsert(password)
+      );
+
+      await allure.step("Click on the Login button", async () =>
+        logIn.clickLoginBtn()
+      );
+
+      await allure.step(`Verify the ${scheme} banner presence`, async () =>
+        logIn.invalidBannerPasswordPresence()
+      );
+    });
+  });
 });
-
-    // test.describe('Invalid Username should return the correct banner', () => {
-    //     const invalidUsernameTests = [
-    //         { scheme: 'incorrect', username: 'InvalidUser', description: 'Invalid username' },
-    //         { scheme: 'empty', username: '', description: 'Empty username' },
-    //     ];
-    //             if (scheme === 'incorrect') {
-    //                 await logIn.usernameInsert(username);
-    //             }
-
-    //             if (scheme === 'empty') {
-    //                 // Leave username empty
-    //             }
-
-    //             await logIn.passwordInsert('SuperSecretPassword!');
-    //             await logIn.clickLoginBtn();
-    //             // Add assertions for invalid username banner
-    //         });
-    //     });
-
-//     test.describe('Invalid Password Scenarios', () => {
-//         const invalidPasswordTests = [
-//             { scheme: 'incorrect', password: 'InvalidPassword', description: 'Invalid password' },
-//             { scheme: 'empty', password: '', description: 'Empty password' },
-//         ];
-
-//         invalidPasswordTests.forEach(({ scheme, password, description }) => {
-//             test(`Invalid Password: ${description}`, async () => {
-//                 await logIn.usernameInsert('tomsmith');
-
-//                 if (scheme === 'incorrect') {
-//                     await logIn.passwordInsert(password);
-//                 }
-
-//                 if (scheme === 'empty') {
-//                     // Leave password empty
-//                 }
-
-//                 await logIn.clickLoginBtn();
-//                 // Add assertions for invalid password banner
-//             });
-//         });
-//     });
-
-
-// test('Testing Step', async () => {
-    //   await allure.step('1. Testing Step a', async() =>
-    //     module.children1());  
-
-    //   await allure.step('2. Testing Step b', async() =>
-    //     module.children2());  
-
-    //   await allure.step('3. Testing Step c', async() =>
-    //     module.children3));  
-    // });
