@@ -16,6 +16,7 @@ test.describe('Login Page - Unit Test', () => {
   });
   
   test('Login Page Initial State Check: Page Header & Information', async () => {
+    allure.severity("Medium")
     await allure.step('Verify the header existence', async () => 
       logIn.HeaderPresence());
 
@@ -25,6 +26,7 @@ test.describe('Login Page - Unit Test', () => {
     
 
   test('Login Page Initial State Check: Login Form Component', async () => {
+    allure.severity("Critical")
     await allure.step('Verify the "username" field', async() => 
       logIn.usernameFieldPresence());  
 
@@ -36,6 +38,7 @@ test.describe('Login Page - Unit Test', () => {
   });
 
   test('Normal Login Page Action Flow', async() => {
+    allure.severity("Critical")
     await allure.step('1. Insert a valid username', async() => 
       logIn.usernameInsert('tomsmith'));
 
