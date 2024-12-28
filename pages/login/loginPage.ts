@@ -18,13 +18,13 @@ export class LoginPage extends BasePage {
     expect(await this._find(Interactor.username_input).isEditable()).toBeTruthy();
     await this._type(Interactor.username_input, username);
     await expect(this._find(Interactor.username_input)).toBeEditable();
-    await this._capture(`Username Insert: ${username}`);
+    await this._capture('Username Insert');
   }
 
   async passwordInsert(password: string) {
     expect(await this._find(Interactor.password_input).isVisible()).toBeTruthy();
     await this._type(Interactor.password_input, password);
-    await this._capture(`Password Insert: ${password}`);
+    await this._capture('Password Insert');
   }
 
   async clickLoginBtn() {
