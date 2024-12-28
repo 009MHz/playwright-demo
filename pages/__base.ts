@@ -1,6 +1,4 @@
 import { Page } from '@playwright/test';
-import * as fs from 'fs';
-import * as path from 'path';
 import * as allure from 'allure-js-commons';
 
 export class BasePage {
@@ -49,19 +47,13 @@ export class BasePage {
          *
          * @param filename The name of the screenshot file (e.g., "Invalid Username Banner").
          */
-        const screenshotMode = process.env.screenshot;
-        if (screenshotMode !== "off" && screenshotMode !== undefined) {
-            const imageResult = `${filename.replace(' ', '_')}.png`;
-            const screenshotPath = path.join("reports/screenshots", imageResult);
-
-            await this.page.screenshot({ path: screenshotPath, fullPage: true });
-
-            const screenshotFile = fs.readFileSync(screenshotPath);
-            allure.attachment(
-                filename,
-                screenshotFile,
-                'image/png'
+        // const screenshotMode = process.env.screenshot;
+        // if (screenshotMode !== "off" && screenshotMode !== undefined) {
+            await allure.attachment(
+              filename,
+              await this.page.screenshot({ fullPage: true }),
+              allure.ContentType.PNG
             );
         }
-    }
+    // }
 }
