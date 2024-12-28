@@ -112,7 +112,7 @@ export class LoginPage extends BasePage {
     await this._capture("Invalid Username Banner")
   }
 
-  async invalid_banner_password() {
+  async invalidBannerPasswordPresence() {
     await this._look(PageInfo.banner_main)
     await expect(this._find(PageInfo.banner_main)).toContainText("password is invalid!")
     await expect(this._find(PageInfo.banner_close)).toBeEnabled()
