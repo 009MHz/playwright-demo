@@ -1,7 +1,6 @@
 import * as allure from "allure-js-commons";
 import { test } from "@playwright/test";
 import { LoginPage } from "../../pages/login/loginPage";
-import { PreCond } from "../../pages/login/preCond.ts";
 
 export const features = (
   featureList?: string | string[]
@@ -14,14 +13,12 @@ export const features = (
 
 test.describe("Login Page - Unit Test", () => {
   let logIn: LoginPage;
-  let preCond: PreCond;
 
   test.beforeEach(async ({ page }) => {
-    preCond = new PreCond(page);
     logIn = new LoginPage(page);
     allure.epic("Login")
     allure.story("Login Page Unit Test")
-    await preCond.openLoginPage();
+    await logIn.openPage();
   });
 
   test("Login Page Initial State Check: Page Header & Information", async () => {
