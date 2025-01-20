@@ -109,9 +109,6 @@ This will start a local server and open the Allure report in your default web br
 ## 5. Test Runner Command Line
    
 ### Test Runner Config
-- `--headless`: Run tests in headless mode (default: _Non-headless_). 
-- `--browser`: Run tests in a different single browser. `chromium`, `firefox`, or `webkit`.
-- `--browsers`: Run tests in multiple browser at once. The parameter of the browser is the comma-separated. <br>(*e.g:* `webkit,firefox`) 
 - `--device`: Device to be emulated.  
 - `--tracing` Whether to record a trace for each test. on, off, or retain-on-failure (default: off). 
 - `--video` Whether to record video for each test. on, off, or retain-on-failure (default: off). 
