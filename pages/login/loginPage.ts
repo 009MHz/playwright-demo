@@ -7,7 +7,6 @@ export class LoginPage extends BasePage {
     super(page);
   }
 
-
   // Login Page Interaction
   async openPage() {
     await this.page.goto(PageInfo.url);
@@ -69,4 +68,11 @@ export class LoginPage extends BasePage {
     await expect(this._find(PageForm.loginBtn)).toHaveText('Login');
   }
 
+    //Login Init action
+    async LoginInit() {
+      await this.openPage()
+      await this.usernameInsert("Admin");
+      await this.passwordInsert("Admin123");
+      await this.clickLoginBtn()
+    };
 }
