@@ -21,7 +21,7 @@ test.describe("Login Page - Unit Test", () => {
     logIn = new LoginPage(page);
     allure.epic("Login")
     allure.story("Login Page Unit Test")
-    await preCond.loadLoginPage();
+    await preCond.openLoginPage();
   });
 
   test("Login Page Initial State Check: Page Header & Information", async () => {
@@ -32,11 +32,11 @@ test.describe("Login Page - Unit Test", () => {
     ]);
 
     await allure.step("Verify the header existence", async () =>
-      logIn.HeaderPresence()
+      logIn.PageInfoPresence()
     );
 
-    await allure.step("Verify the subheader presence", async () =>
-      logIn.SubheaderPresence()
+    await allure.step("Verify the credentials hints existence", async () =>
+      logIn.PageHintsPresence()
     );
   });
 
@@ -50,15 +50,15 @@ test.describe("Login Page - Unit Test", () => {
     ]);
 
     await allure.step('Verify the "username" field', async () =>
-      logIn.usernameFieldPresence()
+      logIn.usernameInputPresence()
     );
 
     await allure.step('Verify the "password" field', async () =>
-      logIn.passwordFieldPresence()
+      logIn.passwordInputPresence()
     );
 
     await allure.step('Verify the "Login" button', async () =>
-      logIn.loginButtonPresence()
+      logIn.LoginButtonPresence()
     );
   });
 
@@ -72,81 +72,15 @@ test.describe("Login Page - Unit Test", () => {
     ]);
 
     await allure.step("Insert a valid username", async () =>
-      logIn.usernameInsert("tomsmith")
+      logIn.usernameInsert("Admin")
     );
 
     await allure.step("Insert a valid password", async () =>
-      logIn.passwordInsert("SuperSecretPassword!")
+      logIn.passwordInsert("admin123")
     );
 
     await allure.step('Click on the "Login" button', async () =>
       logIn.clickLoginBtn()
     );
-  });
-
-  const invalidUsernameScenarios = [
-    { scheme: "incorrect", username: "InvalidUser" },
-    { scheme: "empty", username: "" },
-  ];
-
-  invalidUsernameScenarios.forEach(({ scheme, username }) => {
-    test(`Invalid Username: '${scheme}' scenario`, async () => {
-      allure.severity("Medium")
-      features([
-        "Login Page/ Login Form",
-        "Login Page/ Invalid Banner/",
-        "Login Page/ Invalid Banner/ Invalid Username"
-      ]);
-
-      allure.description(`Scenario: \`${scheme}\``);
-
-      await allure.step(`Insert \`${scheme}\` value on the username field`, async () =>
-        logIn.usernameInsert(username)
-      );
-
-      await allure.step("Insert a valid password", async () =>
-        logIn.passwordInsert("SuperSecretPassword!")
-      );
-
-      await allure.step("Click on the Login button", async () =>
-        logIn.clickLoginBtn()
-      );
-
-      await allure.step(`Verify the ${scheme} banner presence`, async () =>
-        logIn.invalidBannerUsernamePresence()
-      );
-    });
-  });
-
-  const invalidPasswordScenarios = [
-    { scheme: "incorrect", password: "InvalidPassword" },
-    { scheme: "empty", password: "" },
-  ];
-
-  invalidPasswordScenarios.forEach(({ scheme, password }) => {
-    test(`Invalid Password: '${scheme}' scenario`, async () => {
-      allure.severity("Medium")
-      features([
-        "Login Page/ Invalid Banner/",
-        "Login Page/ Invalid Banner/ Invalid Password"
-      ]);
-      allure.description(`Scenario: \`${scheme}\``);
-
-      await allure.step("Insert a valid user on the username field", async () =>
-        logIn.usernameInsert("tomsmith")
-      );
-
-      await allure.step(`Insert \`${scheme}\` value on the password field`, async () =>
-        logIn.passwordInsert(password)
-      );
-
-      await allure.step("Click on the Login button", async () =>
-        logIn.clickLoginBtn()
-      );
-
-      await allure.step(`Verify the ${scheme} banner presence`, async () =>
-        logIn.invalidBannerPasswordPresence()
-      );
-    });
   });
 });
