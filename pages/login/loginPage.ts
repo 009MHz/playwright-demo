@@ -11,7 +11,7 @@ export class LoginPage extends BasePage {
   // Login Page Interaction
   async openPage() {
     await this.page.goto(PageInfo.url);
-    expect(this.page.url).toContain('/auth/login');
+    await expect(this.page.url()).toContain('/auth/login');
   }
 
   async usernameInsert(username: string) {
