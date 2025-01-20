@@ -4,7 +4,7 @@ export class PageInfo {
   static title = "//h5[contains(@class, 'login-title')]"; // XPath for the login title
   static hintsWrapper = "//div[contains(@class, 'credentials')]"
   static hintsUser = "text='Username : Admin'"; // Text selector for username hint
-  static hintsPassword = "text='Password'"; // Text selector for password hint
+  static hintsPassword = "text='Password : admin123'"; // Text selector for password hint
 }
 
 export class PageForm {
