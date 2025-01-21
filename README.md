@@ -1,4 +1,20 @@
 # Playwright TypeScript Project Documentation
+
+## Scripts
+Install dependencies and run tests:
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Run tests:
+   ```bash
+   npx playwright test
+   ```
+3. Generate Allure reports:
+   ```bash
+   allure generate reports && allure open
+   ```
+
 ## Folder Breakdown
 
 ### `.github/workflows/`
@@ -106,20 +122,32 @@ The `.github/workflows/playwright.yml` handles CI/CD for running Playwright test
   npx playwright test --workers=1
   ```
 
-## Scripts
-Install dependencies and run tests:
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
-2. Run tests:
-   ```bash
-   npx playwright test
-   ```
-3. Generate Allure reports:
-   ```bash
-   allure generate reports && allure open
-   ```
+## Running Tests in Debug Mode
+- Enable debug mode for detailed output and inspection:
+  ```bash
+  npx playwright test --debug
+  ```
+
+## Running Tests in Headless/Non-Headless Mode
+- Headless mode:
+  ```bash
+  npx playwright test --headless
+  ```
+- Non-headless mode:
+  ```bash
+  npx playwright test --headed
+  ```
+
+## Using Multiple Commands for Running Tests
+- Example: Run tests on Chromium in headless mode with Allure reporting:
+  ```bash
+  npx playwright test --project=chromium --headless --reporter=allure-playwright
+  ```
+- Example: Run a specific test suite in debug mode without attachments:
+  ```bash
+  npx playwright test tests/dashbord/premium.test.ts --debug --trace=off --screenshot=off --video=off
+  ```
+
 
 ## Notes
 - Ensure Allure Command Line is installed for generating reports.
