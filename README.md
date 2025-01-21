@@ -1,173 +1,127 @@
-# Guides
-1. **Set up Python environment:**
-   - Create a virtual environment.
-   - Install Playwright and Allure Pytest using pip.
-   - Install Allure Command Line.
+# Playwright TypeScript Project Documentation
+## Folder Breakdown
 
-2. **Initialize Playwright:**
-   - Install necessary browser binaries.
+### `.github/workflows/`
+- **playwright.yml**: Contains GitHub Actions workflow for CI/CD.
 
-3. **Write test cases:**
-   - Use Playwright's API to create and run browser tests.
-   - Configure Allure to generate test reports.
+### `elements/`
+Defines reusable selectors for pages.
+- **login/LoginElements.ts**: Selectors for login-related elements.
+- **dashbord/**: Selectors for various user roles:
+  - Guest, Common, Premium, Admin.
 
-4. **Run tests and generate reports:**
-   - Use pytest to run tests.
-   - Use Allure to generate and view reports. 
+### `pages/`
+Encapsulates page-specific actions and interactions.
+- **login/LoginPage.ts**: Actions for login operations.
+- **dashbord/**: Actions for user roles:
+  - GuestUser, Premium, Admin, CommonUser.
 
-5. **Test Runner Command Line**
-   - Test Runner Config
-   - Implementation Example
+### `utils/`
+Utility files for browser configuration and session handling.
+- **browserConfig.ts**: Configures browser settings.
+- **fixtures.ts**: Shared test fixtures.
+- **sessionStarter.ts**: Handles session initialization.
+- **GlobalTeardown.ts**: Teardown operations post-tests.
+- **SessionHandler.ts**: Manages session tokens.
+- **UrlRouting.ts**: Handles application URL routing.
 
+### `tests/`
+Contains test scripts.
+- **login/**: Tests for login functionality:
+  - Valid and invalid login scenarios.
+- **dashbord/**: Tests for various user roles:
+  - Smoke tests for guest users.
+  - Functional tests for premium and admin users.
 
-## 1. Setting Up Your Environment
+### Root Files
+- **playwright.config.ts**: Playwright configuration.
+- **tsconfig.json**: TypeScript configuration.
+- **package.json**: Project metadata and dependencies.
+- **README.md**: Project documentation.
 
-### Install Python
-Make sure you have Python installed on your machine. You can download it from [python.org](https://www.python.org/).
+## CI/CD
+## GitHub Actions Workflow
+The `.github/workflows/playwright.yml` handles CI/CD for running Playwright tests on different browsers and configurations. It integrates Allure for reporting test results.
 
-### Create a Virtual Environment
-It's good practice to use a virtual environment for your project.
+## Reporting
+- **Allure Reporter**: Configured in `playwright.config.ts` with:
+  - Results directory: `reports`
+  - Suite titles and detail level customization.
 
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-```
+## Command Line Options
 
-### Install Playwright
-You can install Playwright using pip.
+## Running Tests with/without Report
+- Without Allure report:
+  ```bash
+  npx playwright test --reporter=list
+  ```
+- With Allure report:
+  ```bash
+  npx playwright test --reporter=allure-playwright
+  ```
 
-```bash
-pip install playwright
-```
+## Running Tests with/without Attachments
+- Without attachments:
+  ```bash
+  npx playwright test --trace=off --screenshot=off --video=off
+  ```
+- With attachments:
+  ```bash
+  npx playwright test --trace=on-first-retry --screenshot=on --video=on
+  ```
 
-### Install Package requirements
-Install defined requirements on the current repository 
+## Running Tests on Specific Browser
+- Chromium:
+  ```bash
+  npx playwright test --project=chromium
+  ```
+- Firefox:
+  ```bash
+  npx playwright test --project=firefox
+  ```
+- Webkit:
+  ```bash
+  npx playwright test --project=webkit
+  ```
 
-```bash
-pip install -r requirements.txt
-```
+## Running Tests on Specific Test Suites
+- Specify a suite by file path:
+  ```bash
+  npx playwright test tests/login/login.test.ts
+  ```
 
-### Install Allure Command Line
-Follow the instructions to install Allure Command Line from [the official Allure website](https://docs.qameta.io/allure/#_get_started).
+## Running Tests on Specific Features Only
+- Use a tag to filter tests:
+  ```bash
+  npx playwright test --grep @featureTag
+  ```
+- Exclude specific features:
+  ```bash
+  npx playwright test --grep-invert @excludedFeatureTag
+  ```
 
-For example, on macOS using Homebrew:
+## Running Tests Using Specific Worker
+- Limit to a specific worker:
+  ```bash
+  npx playwright test --workers=1
+  ```
 
-```bash
-brew install allure
-```
+## Scripts
+Install dependencies and run tests:
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Run tests:
+   ```bash
+   npx playwright test
+   ```
+3. Generate Allure reports:
+   ```bash
+   allure generate reports && allure open
+   ```
 
-On Windows, download the binary from the [official site](https://docs.qameta.io/allure/#_get_started) and add it to your PATH.
-
-## 2. Initialize Playwright
-
-You need to install the necessary browser binaries.
-
-```bash
-python -m playwright install
-```
-
-## 3. Write Your First Test
-
-Create a new directory for your tests, e.g., `tests`. Inside this directory, create a file called `test_example.py` with the following content:
-
-```python
-import pytest
-from playwright.sync_api import sync_playwright
-
-@pytest.fixture()
-def browser():
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
-        yield browser
-        browser.close()
-
-def test_example(browser):
-    page = browser.new_page()
-    page.goto("https://example.com")
-    assert page.title() == "Example Domain"
-```
-
-## 4. Run Your Tests
-
-Run your tests using pytest. This will generate the results for Allure.
-
-```bash
-pytest -command-line1 --command-line2 --command-line3
-```
-
-### Generate and Open Allure Report
-
-Generate the Allure report using the following command:
-
-```bash
-allure serve <directory-name>
-```
-
-This will start a local server and open the Allure report in your default web browser.
-
-
-## 5. Test Runner Command Line
-   
-### Test Runner Config
-- `--device`: Device to be emulated.  
-- `--tracing` Whether to record a trace for each test. on, off, or retain-on-failure (default: off). 
-- `--video` Whether to record video for each test. on, off, or retain-on-failure (default: off). 
-- `--screenshot` Whether to automatically capture a screenshot after each test. on, off, or only-on-failure (default: off). 
-- `--full-page-screenshot` Whether to take a full page screenshot on failure. By default, only the viewport is captured. Requires --screenshot to be enabled (default: off).
-- `-n` or `-numproccesses`: The worker to run the tests, requires a number or set as `auto` to run with max device thread
-- `--alluredir=<path>`: Store test results in specific directory
-- `--reruns=<number>`: Action to retry/retest the failed test, the retest attempts is using the args value
-- `--reruns-delay=<number>`: The delay time between test failed completion and retry attempt (numeric format in seconds)
-
-
-### Implementation:
-
-*Running the test only on specific file*
-```bash
-pytest tests/test_example.py
-```
-
-*Running the test on multiple files*
-```bash
-pytest tests/test_example.py tests/test_search_filter_menu.py
-```
-
-*Running the test on directory*
-```bash
-pytest tests
-```
-
-*Running the test on repository*
-```bash
-pytest 
-```
-
-*Running the test using headless mode*
-```bash
-pytest --headless
-```
-
-*Running the test using headless mode and extract the reports under `reports` folder*
-```bash
-pytest --headless --alluredir=reports
-```
-
-*Running the test on headless mode using as much as possible worker, with 2x retry attempts with 3seconds delay, then extract the report*
-```bash
-pytest --headless -n=auto --reruns=2 --reruns-delay=3 --alluredir=reports 
-```
-
-*Running the test on headless mode using as much as possible worker, with 2x retry attempts with 3seconds delay, with attachment captured avery test session cleared, then extract the report*
-```bash
-pytest --headless -n=auto --reruns=2 --reruns-delay=3 --screenshot=on --alluredir=reports 
-```
-**Running the tests on firefox headless and only capture the attachment when the test is failed*
-```bash
-pytest --headless --browser=firefox --video=retain-on-failure --screenshot=only-on-failure --full-page-screenshot=on
-```
-
-**Running the tests on multiple headless browsers and only capture the screenshot when the test is failed*
-```bash
-pytest --headless --browsers=firefox,chromium,webkit --screenshot=only-on-failure --full-page-screenshot=on
-```
+## Notes
+- Ensure Allure Command Line is installed for generating reports.
+- Test results include screenshots and traces for debugging.
 
