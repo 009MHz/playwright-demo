@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "rootDir": ".",
+    "resolveJsonModule": true,
+    "types": ["node"],
+    "moduleResolution": "node",
+    "lib": ["ES2020", "DOM"],
+    "sourceMap": true,
+    "baseUrl": ".",                  // Resolve imports relative to the project root
+    "paths": {
+      "*": ["*"]                    // Map all imports directly to the source files
+    }
+  },
+  "include": ["utils/**/*", "pages/**/*", "tests/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
