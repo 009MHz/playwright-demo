@@ -69,10 +69,10 @@ export class LoginPage extends BasePage {
   }
 
     //Login Init action
-    async LoginInit() {
+    async LoginInit(username: string, password: string) {
       await this.openPage()
-      await this.usernameInsert("Admin");
-      await this.passwordInsert("Admin123");
+      await this.usernameInsert(username);
+      await this.passwordInsert(password);
       await this.clickLoginBtn()
     };
 }
