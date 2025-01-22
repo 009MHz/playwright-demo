@@ -24,6 +24,7 @@ export default defineConfig({
     trace: 'on-first-retry',
     screenshot: 'on',
     video: 'off',
+    storageState: ".auth/session.json",
   },
   projects: [
     {
