@@ -1,6 +1,6 @@
 import * as allure from "allure-js-commons";
 import { test } from "@playwright/test";
-import { LoginPage } from "../../pages/login/loginPage";
+import { LoginPage } from "../../pages/login/LoginPage";
 
 export const features = (
   featureList?: string | string[]

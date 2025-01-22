@@ -1,5 +1,5 @@
 import { test as base } from '@playwright/test';
-import { LoginPage } from '../pages/login/loginPage';
+import { LoginPage } from '../pages/login/LoginPage';
 
 // Extend the base test with a custom fixture
 export const test = base.extend<{

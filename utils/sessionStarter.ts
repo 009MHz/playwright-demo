@@ -1,5 +1,5 @@
 import { chromium } from '@playwright/test';
-import { LoginPage } from '../pages/login/loginPage';
+import { LoginPage } from '../pages/login/LoginPage';
 
 (async () => {
   const browser = await chromium.launch(); // Launch browser
