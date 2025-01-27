@@ -1,5 +1,5 @@
 import { BasePage } from '../__base';
-import { PageInfo } from '../../elements/dashboard/Dashboardelement';
+import { PageInfo } from '../../src/elements/dashboard/Dashboardelement';
 import { expect, Page } from '@playwright/test';
 
 export class DashboardPage extends BasePage {
