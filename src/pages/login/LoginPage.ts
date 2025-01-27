@@ -1,5 +1,5 @@
 import { BasePage } from '../__base';
-import { PageInfo, PageForm } from '../../elements/login/LoginElements';
+import { PageInfo, PageForm } from '@elements/login/LoginElements';
 import { expect, Page } from '@playwright/test';
 
 export class LoginPage extends BasePage {

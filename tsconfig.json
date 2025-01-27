@@ -14,10 +14,11 @@
     "sourceMap": true,
     "baseUrl": ".",                  // Resolve imports relative to the project root
     "paths": {
+      "@elements/*": ["src/elements/*"],
       "@pages/*": ["src/pages/*"],
       "@components/*": ["src/components/*"],
       "@utils/*": ["src/utils/*"],
-      "@fixtures/*": ["src/fixtures/*"]
+      "@fixtures/*": ["src/fixtures/*"],
       // "*": ["*"]                    // Map all imports directly to the source files,
     }
   },
